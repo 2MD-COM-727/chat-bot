@@ -1,5 +1,12 @@
 # AE1 Software and Technical Report for a Chat Bot
 
+## How to run
+
+```python
+# To install the dependencies
+pip install -r requirements.txt
+```
+
 ## Details
 
 |Key|Value|
