@@ -1,4 +1,4 @@
-#STILL WORKING ON IT
+# STILL WORKING ON IT
 
 from tkinter import *
 
@@ -27,8 +27,14 @@ class ChatApp:
         self.window.configure(width=440, height=520, bg=white_colour)
 
         # header
-        header_label = Label(self.window, bg="#EE7A84", fg=text_colour, text="Welcome! Solent's Library Chatbot",
-                             font=font, pady=5)
+        header_label = Label(
+            self.window,
+            bg="#EE7A84",
+            fg=text_colour,
+            text="Welcome! Solent's Library Chatbot",
+            font=font,
+            pady=5,
+        )
         header_label.place(relwidth=1)
 
         # divider
@@ -36,8 +42,16 @@ class ChatApp:
         line.place(relwidth=1, rely=0.065, relheight=0.005)
 
         # text widget, so we don't display too many caracters in a line
-        self.text_widget = Text(self.window, width=20, height=2, bg=white_colour, fg=text_colour, font=font, padx=5,
-                                pady=5)
+        self.text_widget = Text(
+            self.window,
+            width=20,
+            height=2,
+            bg=white_colour,
+            fg=text_colour,
+            font=font,
+            padx=5,
+            pady=5,
+        )
         self.text_widget.place(relheight=0.8, relwidth=1, rely=0.065)
         self.text_widget.configure(cursor="arrow", state=DISABLED)
 
@@ -57,8 +71,14 @@ class ChatApp:
         self.entry_box.bind("<Return>", self._on_enter_pressed)
 
         # send button
-        send_button = Button(bottom_label, text="Send", font=font_bold, width=20, bg="#EE7A84",
-                             command=lambda: self._on_enter_pressed(None))
+        send_button = Button(
+            bottom_label,
+            text="Send",
+            font=font_bold,
+            width=20,
+            bg="#EE7A84",
+            command=lambda: self._on_enter_pressed(None),
+        )
         send_button.place(relx=0.77, rely=0.008, relheight=0.06, relwidth=0.22)
 
     def _on_enter_pressed(self, event):
@@ -88,4 +108,3 @@ class ChatApp:
 if __name__ == "__main__":
     app = ChatApp()
     app.run()
-
