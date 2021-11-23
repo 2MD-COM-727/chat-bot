@@ -1,14 +1,12 @@
-# STILL WORKING ON IT
+# GUI - DONE, 23.11.21
 
 from tkinter import *
+import tkinter.scrolledtext as ScrolledText
 
-red = "#E30D34"
-in_between_colour = "#FCCE8E"
-light_colour = "#FBE7D3"
 white_colour = "#FFFFFF"
 text_colour = "#000000"
-font = "Helvetica 14"
-font_bold = "Helvetica 13 bold"
+font = "Helvetica 11"
+font_bold = "Helvetica 10"
 
 
 class ChatApp:
@@ -22,51 +20,57 @@ class ChatApp:
         self.window.mainloop()
 
     def _setup_main_window(self):
-        self.window.title("Solent's Library Chatbot")
+        self.window.title("Solent Library's Chatbot")
         self.window.resizable(width=False, height=False)
-        self.window.configure(width=440, height=520, bg=white_colour)
+        self.window.configure(width=340, height=420, bg=white_colour)
 
         # header
         header_label = Label(
             self.window,
             bg="#EE7A84",
             fg=text_colour,
-            text="Welcome! Solent's Library Chatbot",
-            font=font,
-            pady=5,
+            text="Welcome! I'm Solent's Library Chatbot",
+            font="Helvetica 11",
+            pady=4,
         )
         header_label.place(relwidth=1)
 
         # divider
-        line = Label(self.window, width=460, bg=in_between_colour)
+        line = Label(self.window, width=350, bg="#FCCE8E")
         line.place(relwidth=1, rely=0.065, relheight=0.005)
 
-        # text widget, so we don't display too many caracters in a line
+        # text widget area
         self.text_widget = Text(
             self.window,
-            width=20,
-            height=2,
+            width=50,
+            height=13,
+            wrap=WORD,
             bg=white_colour,
             fg=text_colour,
             font=font,
             padx=5,
             pady=5,
         )
-        self.text_widget.place(relheight=0.8, relwidth=1, rely=0.065)
-        self.text_widget.configure(cursor="arrow", state=DISABLED)
 
         # scroll bal
-        scrollbar = Scrollbar(self.text_widget)
-        scrollbar.place(relheight=1, relx=0.974)
-        scrollbar.configure(command=self.text_widget.yview)
+        self.text_widget = ScrolledText.ScrolledText()
+
+        self.text_widget.place(relheight=0.83, relwidth=1, rely=0.065)
+
+        #chatbot initial message
+        self.text_widget.configure(cursor="arrow", state=DISABLED)
+        initial_msg = Label(self.text_widget, text="Hi, I'm Solent Lib Chatbot. I can help you with any query regarding library's opening times, printing info, booking group/individual study rooms or "
+                                                   "computers, borrowing laptops, available software and computer types alongside their location and lastly, books location.",
+                            background='#ffdbde', wraplength=180, justify='left', padx=10, pady=5)
+        self.text_widget.window_create('end', window=initial_msg)
 
         # bottom label
         bottom_label = Label(self.window, bg="#F6F6F7", height=80)
-        bottom_label.place(relwidth=1, rely=0.825)
+        bottom_label.place(relwidth=1, rely=0.895)
 
         # question entry box
-        self.entry_box = Entry(bottom_label, bg="#DEDEE1", fg=text_colour, font=font)
-        self.entry_box.place(relwidth=0.74, relheight=0.06, rely=0.008, relx=0.011)
+        self.entry_box = Entry(bottom_label, bg=white_colour, fg=text_colour, font=font)
+        self.entry_box.place(relwidth=0.74, relheight=0.02, rely=0.008, relx=0.011)
         self.entry_box.focus()
         self.entry_box.bind("<Return>", self._on_enter_pressed)
 
@@ -79,31 +83,43 @@ class ChatApp:
             bg="#EE7A84",
             command=lambda: self._on_enter_pressed(None),
         )
-        send_button.place(relx=0.77, rely=0.008, relheight=0.06, relwidth=0.22)
+        send_button.place(relx=0.77, rely=0.007, relheight=0.022, relwidth=0.22)
 
     def _on_enter_pressed(self, event):
         msg = self.entry_box.get()
-        self.insert_message(msg, "You")
+        self.insert_message(msg, "You: ")
 
     def insert_message(self, msg, sender):
+        #in case of no message
         if not msg:
             return
+        #after sending the message, we're deleting it
         self.entry_box.delete(0, END)
-        msg1 = f"{sender}: {msg}\n\n"
-        self.text_widget.configure(state=NORMAL)
-        self.text_widget.insert(END, msg1)
-        self.text_widget.configure(state=DISABLED)
-        # text area
-        """
-        This is to get the answer back from the chatbot:
-        msg2 = f"{bot_name}: {get_response(msg)}\n\n"
-        self.text_widget.configure(state=NORMAL)
-        self.text_widget.insert(END, msg2)
+
+        #msg1 = f"{sender}: {msg}\n\n"
+        msg1 = Label(self.text_widget, text=f"{msg}", background='#ffffd0',wraplength=180, justify='left', padx=10, pady=5)
+
+        self.text_widget.tag_configure('tag-right', justify='right')
+        self.text_widget.tag_configure('tag-left', justify='left')
+
+        self.text_widget.configure(cursor="arrow", state=NORMAL)
+        self.text_widget.insert('end', '\n\n', 'tag-right')
+        self.text_widget.window_create('end', window=msg1)
+        self.text_widget.tag_add("tag-right", "end-1c linestart", "end-1c lineend")  #this allings the label to the right hand side
         self.text_widget.configure(state=DISABLED)
 
+        #chatbot's response
+        #msg2 = f"{bot_name}: {get_response(msg)}\n\n"
+        msg="[Insert Bot's response here]"
+        msg2 = Label(self.text_widget, text=f"{msg}", background='#ffdbde', wraplength=180, justify='left', padx=10,
+                     pady=5)
+        self.text_widget.configure(cursor="arrow", state=NORMAL)
+        self.text_widget.insert('end', '\n\n', 'tag-left')
+        self.text_widget.window_create('end', window=msg2)
+        self.text_widget.configure(state=DISABLED)
+
+        #to see the end
         self.text_widget.see(END)
-        """
-
 
 if __name__ == "__main__":
     app = ChatApp()
