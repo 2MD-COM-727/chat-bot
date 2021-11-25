@@ -1,6 +1,6 @@
 # GUI - DONE, 23.11.21
-#from tkinter import Tk, Label, Text, Entry, Button, WORD # doesnt work
-from tkinter import *
+from tkinter import Tk, Label, Text, Entry, Button, WORD, DISABLED, NORMAL, END
+#from tkinter import *
 import tkinter.scrolledtext as ScrolledText
 
 class ChatApp:
