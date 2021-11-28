@@ -3,3 +3,4 @@ pylint
 pre-commit
 tk
 sphinx
+coverage

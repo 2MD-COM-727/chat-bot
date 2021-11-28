@@ -7,11 +7,34 @@ Requires 'tkinter' (tk) and can be imported as a class module.
         app.run()
 """
 
+from dataclasses import dataclass
 from tkinter import Tk, Label, Text, Entry, Button, WORD, DISABLED, NORMAL, END
 import tkinter.scrolledtext as ScrolledText
 
 
-class ChatGUI:
+# pylint: disable=super-init-not-called
+@dataclass
+class ChatWindow:
+    """Class constants for the GUI window."""
+
+    WINDOW_TITLE = "Solent Library's ChatBot"
+    WINDOW_HEIGHT = 420
+    WINDOW_WIDTH = 340
+    WINDOW_BG_COLOR = "#FFFFFF"
+
+
+@dataclass
+class ChatHeaderLabel:
+    """Class constants for the GUI header label."""
+
+    HEADER_LABEL_BG = "#EE7A84"
+    HEADER_LABEL_FG = "#000000"
+    HEADER_LABEL_TEXT = "Welcome! I'm Solent Library's ChatBot"
+    HEADER_LABEL_FONT = "Helvetica 11"
+    HEADER_LABEL_PAD_Y = 4
+
+
+class ChatGUI(ChatWindow, ChatHeaderLabel):
     """Tkinter GUI for interacting with the ChatBot.
 
     Attributes:
@@ -28,20 +51,24 @@ class ChatGUI:
         self.window.mainloop()
 
     def _setup_main_window(self):
-        self.window.title("Solent Library's Chatbot")
+        self.window.title(self.WINDOW_TITLE)
         self.window.resizable(width=False, height=False)
-        self.window.configure(width=340, height=420, bg="#FFFFFF")
+        self.window.configure(
+            width=self.WINDOW_WIDTH,
+            height=self.WINDOW_HEIGHT,
+            bg=self.WINDOW_BG_COLOR,
+        )
 
         # Header
-        header_label = Label(
+        self.header_label = Label(
             self.window,
-            bg="#EE7A84",
-            fg="#000000",
-            text="Welcome! I'm Solent Library's Chatbot",
-            font="Helvetica 11",
-            pady=4,
+            bg=self.HEADER_LABEL_BG,
+            fg=self.HEADER_LABEL_FG,
+            text=self.HEADER_LABEL_TEXT,
+            font=self.HEADER_LABEL_FONT,
+            pady=self.HEADER_LABEL_PAD_Y,
         )
-        header_label.place(relwidth=1)
+        self.header_label.place(relwidth=1)
 
         # Divider
         line = Label(self.window, width=350, bg="#FCCE8E")
