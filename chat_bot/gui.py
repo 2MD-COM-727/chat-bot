@@ -2,9 +2,9 @@
 
 Requires 'tkinter' (tk) and can be imported as a class module.
 
-Typical usage example:
-    app = ChatGUI
-    app.run()
+    Typical usage example:
+        app = ChatGUI
+        app.run()
 """
 
 from tkinter import Tk, Label, Text, Entry, Button, WORD, DISABLED, NORMAL, END

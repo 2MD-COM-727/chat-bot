@@ -1,4 +1,4 @@
-"""Creates and runs the Library ChatBot
+"""Creates and runs the Library ChatBot.
 
 Requires 'ChatGUI' from 'gui'
 """
