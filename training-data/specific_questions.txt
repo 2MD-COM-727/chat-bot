@@ -1,0 +1,30 @@
+for how long can i book a computer
+Each booking can be up to 4 hours long, and you can have up to 10 bookings at any one time.
+
+for how long can i book a mac
+Each booking can be up to 4 hours long, and you can have up to 10 bookings at any one time.
+
+how far in advance can i book a computer
+You can book up to 14 days in advance. 
+
+I have forgetten which computer i booked
+By default you will receive an email receipt with details of your booking, please check your email to confirm the room you booked.
+
+i am late for my booking
+Please follow this link to ammend your booking: 
+https://mypc.solent.ac.uk/cire/login.aspx
+You can change the time of the booking (if there is availability) by clicking Edit and making the change in the pop-up. You will receive an email with details of the amendment.
+
+my booking slot/time/session has ended
+If no one else has booked the machine you are using, you will be given the option to extend your booking for an hour. You can extend multiple times. If you don’t extend the booking, you will be automatically logged off. You will receive warnings 20, 10, and 5 minutes before the end of your session.
+
+if slot/time/session ends will i loose my work
+is work saved automatically if slot/ time/session ends 
+Yes, you will need to save your work as the end of your session approaches. It is good practice to save your work regularly anyway, as a precaution against the computer crashing, power failure etc.
+
+what happens at the end of my session
+If no one else has booked the machine you are using, you will be given the option to extend your booking for an hour. You can extend multiple times. If you don’t extend the booking, you will be automatically logged off. You will receive warnings 20, 10, and 5 minutes before the end of your session.
+can i extend my computer session
+
+Can I make a booking for someone else?
+No. You can only book for yourself, and only you will be able log-on to a computer you have booked.
