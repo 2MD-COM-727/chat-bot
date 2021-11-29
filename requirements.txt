@@ -3,3 +3,5 @@ pylint
 pre-commit
 tk
 ChatterBot
+sphinx
+coverage

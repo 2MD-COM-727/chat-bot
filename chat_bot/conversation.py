@@ -12,7 +12,7 @@ while True:
     print(f"BOT: {chatbot.get_response(query)}")
     print("BOT: Was this answer helpful?")
     response = input("YOU: ")
-    if response == "no":
+    if response == "no":  # and all other possibilities for no
         print("BOT: Sorry! Would you like to speak to a human?")
         response = input("YOU: ")
         if response == "yes":  # and all other possibilities for yes
