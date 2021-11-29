@@ -1,3 +1,6 @@
+"""Gets answers to a few test queries from chatbot.
+"""
+
 from training import train
 
 

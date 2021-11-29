@@ -6,6 +6,9 @@ from chatterbot.trainers import ListTrainer
 
 
 def train(directory):
+    """Takes data directory and returns trained chatbot.
+    """
+
     query_types = [
         "borrowing_laptop",
         "computer_booking",
@@ -17,8 +20,8 @@ def train(directory):
 
     training_lines = []
     for query_type in query_types:
-        with open(f"{directory}//{query_type}_questions.txt") as file_q:
-            with open(f"{directory}//{query_type}_answer.txt") as file_a:
+        with open(f"{directory}//{query_type}_questions.txt", encoding="UTF-8") as file_q:
+            with open(f"{directory}//{query_type}_answer.txt", encoding="UTF-8") as file_a:
                 answer = file_a.read()
                 for question in file_q.read().splitlines():
                     training_lines.append(question)
