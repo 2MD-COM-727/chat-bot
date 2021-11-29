@@ -1,10 +1,26 @@
 # AE1 Software and Technical Report for a Chat Bot
 
-## How to run
+## Usage
 
-```python
-# To install the dependencies
-pip install -r requirements.txt
+```
+# Installs all dependencies (pip install)
+make init
+
+# Runs the ChatBot package
+make start
+
+# Generates documentation from docstrings (sphinx)
+make build-docs
+
+# Spins up dev server to view documentation (localhost:8000)
+make host-docs
+
+# Run unit tests
+make test
+
+# Spins up dev server to view coverage (localhost:8000)
+make host-cov
+
 ```
 
 ## Details
