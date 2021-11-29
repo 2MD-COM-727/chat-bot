@@ -1,5 +1,4 @@
-"""
-
+"""Trains chatbot based on data.
 """
 
 from chatterbot import ChatBot
