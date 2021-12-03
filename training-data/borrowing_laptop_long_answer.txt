@@ -1,6 +1,0 @@
-The self-service lockers in the library's foyer contain a number of laptops that can be borrowed to take out of the library for 1 week.  To access these you will need to select the appropriate option from the locker's touchscreen.
-You need a valid campus card to borrow and the laptop must be returned after 1 week.  follow the instructions on the touchscreen.
-You need to scan your campus card and enter your PIN to borrow.The screen will then tell you which laptop locker is available (the locker will usually flash as well).Laptops cannot be renewed.
-To borrow a laptop, please follow the on screen instructions. You will need your campus card and PIN to return the laptop and will be directed back to the same locker it was issued from.
-When using laptops make sure you save your work to an external device such as USB memory stick. Work saved directly to a laptop will disappear when the laptop is switched off.
-It is very important that you plug the locker's charger back into the laptop (not the laptop charger), otherwise the laptop will not be returned from your record.

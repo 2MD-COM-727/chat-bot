@@ -2,6 +2,8 @@ black
 pylint
 pre-commit
 tk
-ChatterBot
 sphinx
 coverage
+numpy
+nltk
+tensorflow
