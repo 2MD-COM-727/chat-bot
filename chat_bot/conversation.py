@@ -30,4 +30,3 @@ if HUMAN:
     print("BOT: You will be connected to a human now.")
 
 print("BOT: Goodbye.")
-

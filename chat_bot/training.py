@@ -3,8 +3,8 @@
 
 import json
 import pickle
-import numpy as np
 from random import shuffle
+import numpy as np
 from nltk import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from tensorflow.keras.models import Sequential
