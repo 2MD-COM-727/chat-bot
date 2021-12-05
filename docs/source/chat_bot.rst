@@ -16,3 +16,11 @@ chat\_bot.gui module
    :members:
    :undoc-members:
    :show-inheritance:
+
+chat\_bot.catalogue module
+--------------------------
+
+.. automodule:: chat_bot.catalogue
+   :members:
+   :undoc-members:
+   :show-inheritance:

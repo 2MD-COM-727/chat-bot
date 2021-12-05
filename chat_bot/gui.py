@@ -11,7 +11,6 @@ from dataclasses import dataclass
 from tkinter import Tk, Label, Text, Entry, Button, WORD, DISABLED, NORMAL, END
 import tkinter.scrolledtext as ScrolledText
 
-
 # pylint: disable=super-init-not-called
 @dataclass
 class ChatWindow:

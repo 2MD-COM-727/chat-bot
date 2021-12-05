@@ -21,3 +21,4 @@ jobs:
       - name: Analysing the code with pylint
         run: |
           pylint chat_bot
+          pylint tests
