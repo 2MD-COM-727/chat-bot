@@ -1,9 +1,20 @@
+"""Testing for gui module.
+
+Tests the following: the tkinter window and header instance/style.
+
+Requires the following packages: unittest and chat_bot.
+"""
+
 import unittest
 from chat_bot.gui import ChatGUI
 
 
 class TestGUI(unittest.TestCase):
+    """Test instance for the gui module."""
+
     def test_window(self):
+        """Tests the tkinter window style."""
+
         instance = ChatGUI()
         self.assertEqual(instance.WINDOW_TITLE, "Solent Library's ChatBot")
         self.assertEqual(instance.WINDOW_HEIGHT, 420)
@@ -11,6 +22,8 @@ class TestGUI(unittest.TestCase):
         self.assertEqual(instance.WINDOW_BG_COLOR, "#FFFFFF")
 
     def test_header_label(self):
+        """Tests the tkinter header style."""
+
         instance = ChatGUI()
         self.assertEqual(instance.HEADER_LABEL_BG, "#EE7A84")
         self.assertEqual(instance.HEADER_LABEL_FG, "#000000")
