@@ -13,7 +13,7 @@ from tensorflow.keras.optimizers import SGD
 
 
 IGNORE = ["!", "?", ".", ","]
-category_data = json.loads(open("../model-training/data.json").read())["categories"]
+category_data = json.loads(open("./data/data.json").read())["categories"]
 lem = WordNetLemmatizer()
 
 all_words = set()
@@ -33,7 +33,7 @@ for i, category in enumerate(category_data):
 
 # Fix order of master word list and save to file
 all_words = list(all_words)
-pickle.dump(all_words, open("../model-training/words.pkl", "wb"))
+pickle.dump(all_words, open("./data/words.pkl", "wb"))
 
 # Converting input to numerical arrays for neural network
 training = []
@@ -71,4 +71,4 @@ model.compile(loss="categorical_crossentropy", optimizer=sgd, metrics=["accuracy
 trained_model = model.fit(
     np.array(train_x), np.array(train_y), epochs=30, batch_size=5, verbose=1
 )
-model.save("../model-training/chatbot_model.h5", trained_model)
+model.save("./data/chatbot_model.h5", trained_model)
