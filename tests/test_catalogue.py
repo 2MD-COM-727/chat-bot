@@ -9,6 +9,7 @@ from unittest import TestCase, main as run_tests
 from unittest.mock import patch
 from chat_bot.catalogue import run
 
+
 class TestCatalogue(TestCase):
     """Test instance for the catalogue module."""
 
