@@ -21,7 +21,11 @@ processed_data = []
 for i, category in enumerate(category_data):
     for question in category["questions"]:
         # Split up question into words, convert words into stems and ignore punctuation
-        words = [lem.lemmatize(word) for word in word_tokenize(question) if word not in IGNORE]
+        words = [
+            lem.lemmatize(word)
+            for word in word_tokenize(question)
+            if word not in IGNORE
+        ]
         # Store processed words alongside their category number
         processed_data.append([words, i])
         # Update master word list
@@ -64,5 +68,7 @@ sgd = SGD(learning_rate=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(loss="categorical_crossentropy", optimizer=sgd, metrics=["accuracy"])
 
 # Train the model with our data and save it to a file
-trained_model = model.fit(np.array(train_x), np.array(train_y), epochs=30, batch_size=5, verbose=1)
+trained_model = model.fit(
+    np.array(train_x), np.array(train_y), epochs=30, batch_size=5, verbose=1
+)
 model.save("../model-training/chatbot_model.h5", trained_model)
