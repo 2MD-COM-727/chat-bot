@@ -20,7 +20,7 @@ class ChatBot:
     def __init__(self, threshold=0.75):
 
         # Loads data saved during training with model.py.
-        with open("./data/data.json", encoding="utf-8") as data_file:
+        with open("../chat_bot/data/data.json", encoding="utf-8") as data_file:
             self.data = json.loads(data_file.read())["categories"]
         with open("./data/words.pkl", "rb") as words_file:
             self.all_words = pickle.load(words_file)
@@ -48,7 +48,6 @@ class ChatBot:
         # Use 1 to indicate a word is present in the query and 0 if not.
         bag = [1 if word in query_words else 0 for word in self.all_words]
 
-        # Converts list to numpy array and returns it.
         return np.array([bag])
 
     def get_response(self, query):
@@ -62,7 +61,7 @@ class ChatBot:
             str: The response that corresponds with the predicted category.
         """
 
-        # Converts query to numpy array that model can use for prediction..
+        # Converts query to numpy array that model can use for prediction.
         bow = self.bag_of_words(query)
 
         # Gets model's prediction of likelihood of each category.
