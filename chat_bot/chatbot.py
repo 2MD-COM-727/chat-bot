@@ -21,7 +21,7 @@ class ChatBot:
 
         # Loads data saved during training with model.py.
         with open("../chat_bot/data/data.json", encoding="utf-8") as data_file:
-            self.data = json.loads(data_file.read())["categories"]
+            self.data = json.load(data_file)["categories"]
         with open("./data/words.pkl", "rb") as words_file:
             self.all_words = pickle.load(words_file)
         self.model = load_model("./data/chatbot_model.h5")
