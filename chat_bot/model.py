@@ -50,7 +50,7 @@ def train_model():
 
     # Fixes the order of the master word list and saves it to a file.
     all_words = list(all_words)
-    with open("./data/words.pkl", "wb", encoding="utf-8") as words_file:
+    with open("./data/words.pkl", "wb") as words_file:
         pickle.dump(all_words, words_file)
 
     # Converts input to numerical arrays for the neural network.
@@ -97,4 +97,3 @@ def train_model():
         np.array(train_x), np.array(train_y), epochs=30, batch_size=5, verbose=1
     )
     model.save("./data/chatbot_model.h5", trained_model)
-
