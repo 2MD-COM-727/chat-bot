@@ -18,9 +18,12 @@ IGNORE = ["!", "?", ".", ","]
 
 
 def train_model():
-    """[summary]
+    """Saves trained model and word list to files for use in chatbot.py.
 
-    [Explain process here.]
+    Process: 1) Load queries from data file.
+             2) Process words in each query and store those with their respective category.
+             3) Convert processed words and categories into numerical arrays.
+             4) Use arrays to train neural network model.
     """
 
     with open("./data/data.json", encoding="utf-8") as data_file:
@@ -32,7 +35,7 @@ def train_model():
     for i, category in enumerate(category_data):
         for question in category["questions"]:
 
-            # Splits up the question into words, convert words into stems and ignore punctuation.
+            # Splits up the question into words, converts words into stems and ignores punctuation.
             words = [
                 lem.lemmatize(word)
                 for word in word_tokenize(question)
@@ -47,26 +50,27 @@ def train_model():
 
     # Fixes the order of the master word list and saves it to a file.
     all_words = list(all_words)
-    with open("./data/words.pkl", encoding="utf-8") as words_file:
-        pickle.dump(all_words, words_file, "wb")
+    with open("./data/words.pkl", "wb", encoding="utf-8") as words_file:
+        pickle.dump(all_words, words_file)
 
     # Converts input to numerical arrays for the neural network.
     training = []
     for item in processed_data:
         query_words, cat_num = item
 
-        # For query words, use bag-of-words model.
-        # Use 1 to indicate a word is present and a 0 if not.
+        # For query words, use bag-of-words model (en.wikipedia.org/wiki/Bag-of-words_model).
+        # Use 1 to indicate a word is present in the query and 0 if not (assume word only
+        # appears once in each query).
         bag = [1 if word in query_words else 0 for word in all_words]
 
-        # For output category, use array of 0s with correct category indicated by a 1.
+        # For categories/labels, use array of 0s with correct category indicated by a 1.
         output_row = [0] * len(category_data)
         output_row[cat_num] = 1
 
         # Stores bag-of-words array alongside output array.
         training.append([bag, output_row])
 
-    # Shuffles the training data and split it into input (x) and output (y).
+    # Shuffles the training data and splits it into input (x) and output (y).
     shuffle(training)
     training = np.array(training)
     train_x = list(training[:, 0])
@@ -93,3 +97,4 @@ def train_model():
         np.array(train_x), np.array(train_y), epochs=30, batch_size=5, verbose=1
     )
     model.save("./data/chatbot_model.h5", trained_model)
+
