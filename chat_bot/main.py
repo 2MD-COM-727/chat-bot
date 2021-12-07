@@ -5,7 +5,6 @@ Requires 'ChatGUI' from 'gui'
 
 from argparse import ArgumentParser
 from gui import ChatGUI
-from bot import ChatBot
 from model import Model
 
 # pylint: disable=anomalous-backslash-in-string
@@ -69,6 +68,5 @@ if __name__ == "__main__":
         elif option == "2":
             model.train_model()
     else:
-        bot = ChatBot()
         app = ChatGUI()
         app.run()
