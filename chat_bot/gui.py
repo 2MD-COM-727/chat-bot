@@ -137,9 +137,9 @@ class ChatGUI(ChatWindow, ChatHeaderLabel):
         Gets the message and passes it to the insert_message function.
         """
         msg = self.entry_box.get()
-        self.insert_message(msg)
+        self.insert_user_message(msg)
 
-    def insert_message(self, msg):
+    def insert_user_message(self, msg):
         """Handles the user's input and shows it in the window.
 
         Args:
@@ -163,18 +163,16 @@ class ChatGUI(ChatWindow, ChatHeaderLabel):
             pady=5,
         )
 
-        self.text_widget.tag_configure("tag-right", justify="right")
-        self.text_widget.tag_configure("tag-left", justify="left")
-
         self.text_widget.configure(cursor="arrow", state=NORMAL)
+        self.text_widget.tag_configure("tag-right", justify="right")
         self.text_widget.insert("end", "\n\n", "tag-right")
         self.text_widget.window_create("end", window=msg1)
-        # this allings the label to the right hand side
         self.text_widget.tag_add("tag-right", "end-1c linestart", "end-1c lineend")
         self.text_widget.configure(state=DISABLED)
+        self.text_widget.see(END)
 
-        # chatbot's response
-        msg = "[Insert Bot's response here]"
+    def insert_bot_message(self, msg):
+
         msg2 = Label(
             self.text_widget,
             text=f"{msg}",
@@ -184,9 +182,11 @@ class ChatGUI(ChatWindow, ChatHeaderLabel):
             padx=10,
             pady=5,
         )
+
         self.text_widget.configure(cursor="arrow", state=NORMAL)
+        self.text_widget.tag_configure("tag-left", justify="left")
         self.text_widget.insert("end", "\n\n", "tag-left")
         self.text_widget.window_create("end", window=msg2)
+        self.text_widget.tag_add("tag-left", "end-1c linestart", "end-1c lineend")
         self.text_widget.configure(state=DISABLED)
-
         self.text_widget.see(END)
