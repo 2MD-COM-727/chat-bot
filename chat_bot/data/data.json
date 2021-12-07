@@ -1,0 +1,52 @@
+{"categories": [
+  {
+    "label": "opening times",
+    "questions": ["what time does library open", "library opening hours", "when is library open", "is library open now", "is library open today", "is library open tomorrow", "when does library close", "weekend opening time", "weekend closing time", "weekday opening time", "weekday closing time", "holiday opening time", "lib open time"],
+    "response": "Details of the Library's opening hours can be found here: https://libguides.solent.ac.uk/libraryessentials"
+  },
+  {
+    "label": "library access",
+    "questions": ["do you need student ID to access library","access library", "how do i access library?", "how can I access library", "can I enter library", "entry to lib"],
+    "response": "Please bring your campus card with you to borrow items and to access the Library when the turnstiles are up."
+  },
+  {
+    "label": "computer booking",
+    "questions": ["how many computers are available", "where can i find available computers", "available computers", "where can i find a mac computer", "what type of computers are available", "do i need to book computer in advance", "how do i book a computer", "how do i book a mac", "I want to book a mac", "i want to book a computer", "for how long can i book a computer", "for how long can i book a mac", "I have forgotten which computer i booked", "i am late for my booking", "my booking slot/time/session has ended", "if slot/time/session ends will i loose my work", "what happens at the end of my session", "can i extend my computer session", "Can I make a booking for someone else?"],
+    "response": "Please follow this link for details on the locations in the library and the type/number of computers available for use there. https://libguides.solent.ac.uk/bookings/computers#s-lg-box-14752381"
+  },
+  {
+    "label": "printing",
+    "questions": ["where can I print my work?", "do i print work?", "how much is printing?", "how much does printing cost?", "is printing free of charge?", "printing charges", "how do i pay for printing?", "I need to pay for print.", "can i print from my own computer?", "can i print from my own laptop?", "can i print from my own devise?", "can i print from my own phone?", "how do i pay for printing?", "I need to pay for print", "how do I credit my print account?", "how do I top up my print account?", "how do I add money to my print account?"],
+    "response": "You can find out all about printing costs and printing from your own device or a university machine here: https://students.solent.ac.uk/studying/print-service"
+  },
+  {
+    "label": "borrowing laptop",
+    "questions": ["how can i borrow a laptop", "laptop on loan", "can I use a uni laptop", "borrowing laptop", "can i save work on the laptop", "work saved on laptop", "how can i return the laptop", "return laptop"],
+    "response": "For information on how to borrow and return a laptop, saving work on a borrowed laptop and all other related enquiries, please visit https://libguides.solent.ac.uk/loans/laptoploans"
+  },
+  {
+    "label": "ebooks",
+    "questions": ["can i get ebooks", "where can i find ebooks", "are ebooks available", "ebooks available", "available ebooks", "ebooks"],
+    "response": "Here's a A-Z list of all online resources https://libguides.solent.ac.uk/az.php"
+  },
+  {
+    "label": "location of books",
+    "questions": ["how can i borrow a book", "i need to borrow a book", "find this book", "location of book", "I'm looking for book", "where can i find this book", "where can i read journals", "where can i read papers", "borrow book"],
+    "response": "You can find the full catalogues of books, journals and papers here: https://catalogue.solent.ac.uk/discovery/search?vid=44SSU_INST:VU1"
+  },
+  {
+    "label": "software",
+    "questions": ["can i use software on computers", "which software can i use", "software on computer", "computer applications", "applications on computer", "can i download software on computer", "can i download application on computer", "which software is available on the computers", "what applications are available on computers", "which applications are on computer", "full list of software available", "full list of applications available", "where can i find this software"],
+    "response": "Please follow this link to view in which areas specific software is available. https://libguides.solent.ac.uk/bookings/computers#s-lg-box-14752381"
+  },
+  {
+    "label": "study rooms",
+    "questions": ["booking study rooms", "how can i book an individual room?", "how can i book a group study room?", "how can i book a study room?", "how can I book a study room?", "how long is the room booking?", "how long can i use the study room?", "how many hours can i use the study room?", "how can i extend the booking for a study room?", "i want to extend the study room booking", "i have no booking for study room", "i haven't booked a study room", "no booking for study room"],
+    "response": "You can find information on how to book an individual or group study room here: https://mypc.solent.ac.uk/MyPC/BookingGrid.htm"
+  },
+  {
+    "label": "unknown",
+    "questions": [],
+    "response": "I'm sorry, I don't know how to answer that."
+  }
+]}
