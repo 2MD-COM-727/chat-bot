@@ -8,6 +8,8 @@ import pickle
 import numpy as np
 from nltk import word_tokenize
 from nltk.stem import WordNetLemmatizer
+
+# pylint: disable=no-name-in-module
 from tensorflow.keras.models import load_model
 
 
@@ -20,11 +22,11 @@ class ChatBot:
     def __init__(self, threshold=0.75):
 
         # Loads data saved during training with model.py.
-        with open("./data/data.json", encoding="utf-8") as data_file:
+        with open("chat_bot/data/data.json", encoding="utf-8") as data_file:
             self.data = json.load(data_file)["categories"]
-        with open("./data/words.pkl", "rb") as words_file:
+        with open("chat_bot/data/words.pkl", "rb") as words_file:
             self.all_words = pickle.load(words_file)
-        self.model = load_model("./data/trained_model.h5")
+        self.model = load_model("chat_bot/data/trained_model.h5")
 
         # Sets confidence threshold below which a default response will be returned.
         self.threshold = threshold

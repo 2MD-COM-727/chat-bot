@@ -7,11 +7,12 @@ Requires 'tkinter' (tk) and can be imported as a class module.
         app.run()
 """
 
+# pylint: disable=super-init-not-called
+
 from dataclasses import dataclass
 from tkinter import Tk, Label, Text, Entry, Button, WORD, DISABLED, NORMAL, END
 import tkinter.scrolledtext as ScrolledText
 
-# pylint: disable=super-init-not-called
 @dataclass
 class ChatWindow:
     """Class constants for the GUI window."""

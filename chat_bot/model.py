@@ -3,102 +3,128 @@
 Requires the follwing packages: json, pickle, random, numpy, nltk, and tensorflow.
 """
 
+# pylint: disable=no-name-in-module
+
 import json
 import pickle
 from random import shuffle
 import numpy as np
 from nltk import word_tokenize, download
 from nltk.stem import WordNetLemmatizer
+
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout
 from tensorflow.keras.optimizers import SGD
 
-download('punkt')
-download('wordnet')
+download("punkt")
+download("wordnet")
 
 IGNORE = ["!", "?", ".", ","]
 
 
-# pylint: disable=too-many-locals
-def train_model():
-    """Saves trained model and word list to files for use in chatbot.py.
+class Model:
+    """Saves trained model and words list.
 
-    Process: 1) Load queries from data file.
-             2) Process words in each query and store those with their respective category.
-             3) Convert processed words and categories into numerical arrays.
-             4) Use arrays to train neural network model.
+    1) Load queries from data file.
+    2) Process words in each query and store those with their respective category.
+    3) Convert processed words and categories into numerical arrays.
+    4) Train the neural network model.
     """
 
-    with open("./data/data.json", encoding="utf-8") as data_file:
-        category_data = json.loads(data_file.read())["categories"]
-    lem = WordNetLemmatizer()
+    def __init__(self):
+        self.all_words = set()
+        self.processed_data = []
+        self.training = []
+        self.model = None
 
-    all_words = set()
-    processed_data = []
-    for i, category in enumerate(category_data):
-        for question in category["questions"]:
+        self.load_process_data()
 
-            # Splits up the question into words, converts words into stems and ignores punctuation.
-            words = [
-                lem.lemmatize(word)
-                for word in word_tokenize(question)
-                if word not in IGNORE
-            ]
+    def load_process_data(self):
+        """Loads and processes the data."""
 
-            # Stores processed words along with its category number.
-            processed_data.append([words, i])
+        with open("chat_bot/data/data.json", encoding="utf-8") as data_file:
+            self.category_data = json.loads(data_file.read())["categories"]
+        lem = WordNetLemmatizer()
 
-            # Updates the master word list.
-            all_words.update(words)
+        for i, category in enumerate(self.category_data):
+            for question in category["questions"]:
 
-    # Fixes the order of the master word list and saves it to a file.
-    all_words = list(all_words)
-    with open("./data/words.pkl", "wb") as words_file:
-        pickle.dump(all_words, words_file)
+                # Splits up the question into words
+                # Converts words into stems and ignores punctuation.
+                words = [
+                    lem.lemmatize(word)
+                    for word in word_tokenize(question)
+                    if word not in IGNORE
+                ]
 
-    # Converts input to numerical arrays for the neural network.
-    training = []
-    for item in processed_data:
-        query_words, cat_num = item
+                # Stores processed words along with its category number.
+                self.processed_data.append([words, i])
 
-        # For query words, use bag-of-words model (en.wikipedia.org/wiki/Bag-of-words_model).
-        # Use 1 to indicate a word is present in the query and 0 if not (assume word only
-        # appears once in each query).
-        bag = [1 if word in query_words else 0 for word in all_words]
+                # Updates the master word list.
+                self.all_words.update(words)
 
-        # For categories/labels, use array of 0s with correct category indicated by a 1.
-        output_row = [0] * len(category_data)
-        output_row[cat_num] = 1
+        # Fixes the order of the master word list and saves it to a file.
+        self.all_words = list(self.all_words)
+        with open("chat_bot/data/words.pkl", "wb") as words_file:
+            pickle.dump(self.all_words, words_file)
 
-        # Stores bag-of-words array alongside output array.
-        training.append([bag, output_row])
+        # Converts input to numerical arrays for the neural network.
+        for item in self.processed_data:
+            query_words, cat_num = item
 
-    # Shuffles the training data and splits it into input (x) and output (y).
-    shuffle(training)
-    training = np.array(training)
-    train_x = list(training[:, 0])
-    train_y = list(training[:, 1])
+            # For query words, use bag-of-words model (en.wikipedia.org/wiki/Bag-of-words_model).
+            # Use 1 to indicate a word is present in the query and 0 if not (assume word only
+            # appears once in each query).
+            bag = [1 if word in query_words else 0 for word in self.all_words]
 
-    # Neural network (NN) with dropouts to avoid overfitting.
-    model = Sequential()
-    model.add(Dense(128, input_shape=(len(train_x[0]),), activation="relu"))
-    model.add(Dropout(0.2))
-    model.add(Dense(64, activation="relu"))
-    model.add(Dropout(0.2))
+            # For categories/labels, use array of 0s with correct category indicated by a 1.
+            output_row = [0] * len(self.category_data)
+            output_row[cat_num] = 1
 
-    # Output layer has a vector shape and the same number of nodes as with labels.
-    model.add(Dense(len(train_y[0]), activation="softmax"))
+            # Stores bag-of-words array alongside output array.
+            self.training.append([bag, output_row])
 
-    # Sets the hyperparameters for the NN (optimizer).
-    sgd = SGD(learning_rate=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+        # Shuffles the training data and splits it into input (x) and output (y).
+        shuffle(self.training)
+        self.training = np.array(self.training)
+        self.train_x = list(self.training[:, 0])
+        self.train_y = list(self.training[:, 1])
 
-    # Compiles NN with loss and metrics calculations.
-    model.compile(loss="categorical_crossentropy", optimizer=sgd, metrics=["accuracy"])
+    def build_model(self):
+        """Builds the neural network model and prints a summary."""
 
-    # Trains and saves the model
-    trained_model = model.fit(
-        np.array(train_x), np.array(train_y), epochs=30, batch_size=5, verbose=1
-    )
-    model.save("./data/trained_model.h5", trained_model)
+        # Neural network (NN) with dropouts to avoid overfitting.
+        model = Sequential()
+        model.add(Dense(128, input_shape=(len(self.train_x[0]),), activation="relu"))
+        model.add(Dropout(0.2))
+        model.add(Dense(64, activation="relu"))
+        model.add(Dropout(0.2))
 
-train_model()
+        # Output layer has a vector shape and the same number of nodes as with labels.
+        model.add(Dense(len(self.train_y[0]), activation="softmax"))
+
+        self.model = model
+        print(model.summary())
+
+    def train_model(self):
+        """Trains the neural network with given data and hyperparameters."""
+
+        self.build_model()
+
+        # Sets the hyperparameters for the NN (optimizer).
+        sgd = SGD(learning_rate=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+
+        # Compiles NN with loss and metrics calculations.
+        self.model.compile(
+            loss="categorical_crossentropy", optimizer=sgd, metrics=["accuracy"]
+        )
+
+        # Trains and saves the model
+        trained_model = self.model.fit(
+            np.array(self.train_x),
+            np.array(self.train_y),
+            epochs=30,
+            batch_size=5,
+            verbose=1,
+        )
+        self.model.save("chat_bot/data/trained_model.h5", trained_model)

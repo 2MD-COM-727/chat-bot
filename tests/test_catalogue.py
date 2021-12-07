@@ -14,7 +14,7 @@ class TestCatalogue(TestCase):
     """Test instance for the catalogue module."""
 
     @patch("builtins.input", side_effect=["1", "sport"])
-    # pylint: disable=unused-argument
+    # pylint: disable-next=unused-argument
     def test_simple_book_search(self, mock_inputs):
         """Tests search by title option with a single word."""
 
@@ -27,7 +27,7 @@ class TestCatalogue(TestCase):
         self.assertEqual(result, target)
 
     @patch("builtins.input", side_effect=["2", "McGill"])
-    # pylint: disable=unused-argument
+    # pylint: disable-next=unused-argument
     def test_simple_author_search(self, mock_inputs):
         """Tests search by author option with a single word."""
 
@@ -40,7 +40,7 @@ class TestCatalogue(TestCase):
         self.assertEqual(result, target)
 
     @patch("builtins.input", side_effect=["3", "maths"])
-    # pylint: disable=unused-argument
+    # pylint: disable-next=unused-argument
     def test_simple_subject_search(self, mock_inputs):
         """Tests search by subject option with a single word."""
 
