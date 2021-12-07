@@ -139,3 +139,7 @@ cython_debug/
 
 # Pycharm
 .idea/
+
+# Model training files
+chat_bot/data/chatbot_model.h5
+chat_bot/data/words.pkl
