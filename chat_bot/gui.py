@@ -58,9 +58,9 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
 
     def __init__(self):
         self.window = Tk()
-        self.bot = ChatBot()
         self.flow_type = "query"
         self.text_widget = None
+        self.bot = ChatBot()
 
         self.__setup_main_window()
         self.text_widget.tag_configure("tag-right", justify="right")

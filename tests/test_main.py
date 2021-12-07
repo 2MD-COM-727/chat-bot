@@ -13,7 +13,7 @@ class TestMain(unittest.TestCase):
     """Test instance for the main module."""
 
     def test_gui_instance(self):
-        """Checks if a ChatGUi instance exists."""
+        """Checks if a ChatGUI instance exists."""
 
         self.assertIsNotNone(ChatGUI)
 

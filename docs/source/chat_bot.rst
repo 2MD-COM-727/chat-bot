@@ -24,3 +24,19 @@ chat\_bot.catalogue module
    :members:
    :undoc-members:
    :show-inheritance:
+
+chat\_bot.bot module
+--------------------------
+
+.. automodule:: chat_bot.bot
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+chat\_bot.model module
+--------------------------
+
+.. automodule:: chat_bot.model
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -17,8 +17,8 @@ class TestGUI(unittest.TestCase):
 
         instance = ChatGUI()
         self.assertEqual(instance.WINDOW_TITLE, "Solent Library's ChatBot")
-        self.assertEqual(instance.WINDOW_HEIGHT, 420)
-        self.assertEqual(instance.WINDOW_WIDTH, 340)
+        self.assertEqual(instance.WINDOW_HEIGHT, 660)
+        self.assertEqual(instance.WINDOW_WIDTH, 550)
 
     def test_header_label(self):
         """Tests the tkinter header style."""
@@ -27,7 +27,7 @@ class TestGUI(unittest.TestCase):
         self.assertEqual(
             instance.HEADER_LABEL_TEXT, "Welcome! I'm Solent Library's ChatBot"
         )
-        self.assertEqual(instance.HEADER_LABEL_FONT, "Helvetica 16 bold")
+        self.assertEqual(instance.FONT, "Helvetica 16")
         self.assertEqual(instance.HEADER_LABEL_PAD_Y, 8)
 
 
