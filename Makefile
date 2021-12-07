@@ -6,6 +6,8 @@ host-docs:
 	cd docs/build && python -m http.server && cd ../..
 start:
 	python3 chat_bot/main.py || python chat_bot/main.py
+start-admin:
+	python3 chat_bot/main.py --admin || python chat_bot/main.py --admin
 test:
 	coverage run -m unittest discover -v tests || coverage run -m unittest discover -v tests
 	@echo ""
