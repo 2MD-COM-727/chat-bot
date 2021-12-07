@@ -1,7 +1,7 @@
 """Gets answers from the chatbot for a few test queries.
 """
 
-from chat_bot.chatbot import ChatBot
+from bot import ChatBot
 
 
 test_queries = [

@@ -36,8 +36,9 @@ class Model:
         self.processed_data = []
         self.training = []
         self.model = None
-
-        self.load_process_data()
+        self.category_data = None
+        self.train_x = None
+        self.train_y = None
 
     def load_process_data(self):
         """Loads and processes the data."""
@@ -92,6 +93,8 @@ class Model:
 
     def build_model(self):
         """Builds the neural network model and prints a summary."""
+
+        self.load_process_data()
 
         # Neural network (NN) with dropouts to avoid overfitting.
         model = Sequential()
