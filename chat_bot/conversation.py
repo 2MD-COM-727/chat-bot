@@ -1,7 +1,7 @@
 """Simple TUI chatbot conversation with user.
 """
 
-from chatbot import ChatBot
+from bot import ChatBot
 
 
 cb = ChatBot()

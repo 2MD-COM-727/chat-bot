@@ -141,5 +141,5 @@ cython_debug/
 .idea/
 
 # Model training files
-chat_bot/data/chatbot_model.h5
-chat_bot/data/words.pkl
+**trained_model.h5
+**words.pkl

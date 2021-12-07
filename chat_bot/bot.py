@@ -20,11 +20,11 @@ class ChatBot:
     def __init__(self, threshold=0.75):
 
         # Loads data saved during training with model.py.
-        with open("../chat_bot/data/data.json", encoding="utf-8") as data_file:
+        with open("./data/data.json", encoding="utf-8") as data_file:
             self.data = json.load(data_file)["categories"]
         with open("./data/words.pkl", "rb") as words_file:
             self.all_words = pickle.load(words_file)
-        self.model = load_model("./data/chatbot_model.h5")
+        self.model = load_model("./data/trained_model.h5")
 
         # Sets confidence threshold below which a default response will be returned.
         self.threshold = threshold

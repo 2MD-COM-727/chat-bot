@@ -7,12 +7,14 @@ import json
 import pickle
 from random import shuffle
 import numpy as np
-from nltk import word_tokenize
+from nltk import word_tokenize, download
 from nltk.stem import WordNetLemmatizer
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout
 from tensorflow.keras.optimizers import SGD
 
+download('punkt')
+download('wordnet')
 
 IGNORE = ["!", "?", ".", ","]
 
@@ -97,4 +99,6 @@ def train_model():
     trained_model = model.fit(
         np.array(train_x), np.array(train_y), epochs=30, batch_size=5, verbose=1
     )
-    model.save("./data/chatbot_model.h5", trained_model)
+    model.save("./data/trained_model.h5", trained_model)
+
+train_model()
