@@ -8,6 +8,7 @@ Requires 'tkinter' (tk) and can be imported as a class module.
 """
 
 # pylint: disable=super-init-not-called
+# pylint: disable=too-few-public-methods
 
 from dataclasses import dataclass
 from tkinter import Tk, Label, Text, Entry, Button, WORD, DISABLED, NORMAL, END
@@ -45,15 +46,21 @@ class ChatGUI(ChatWindow, ChatHeaderLabel):
 
     def __init__(self):
         self.window = Tk()
-        self._setup_main_window()
         self.bot = ChatBot()
+        self.flow_type = "query"
+
+        self.text_widget = None
+
+        self.__setup_main_window()
+        self.text_widget.tag_configure("tag-right", justify="right")
+        self.text_widget.tag_configure("tag-left", justify="left")
 
     def run(self):
         """Initiates the main loop for the tkinter window."""
 
         self.window.mainloop()
 
-    def _setup_main_window(self):
+    def __setup_main_window(self):
         self.window.title(self.WINDOW_TITLE)
         self.window.resizable(width=False, height=False)
         self.window.configure(
@@ -121,7 +128,7 @@ class ChatGUI(ChatWindow, ChatHeaderLabel):
         )
         self.entry_box.place(relwidth=0.74, relheight=0.02, rely=0.008, relx=0.011)
         self.entry_box.focus()
-        self.entry_box.bind("<Return>", self._on_enter_pressed)
+        self.entry_box.bind("<Return>", self.__on_enter_pressed)
 
         # Send button
         send_button = Button(
@@ -130,58 +137,51 @@ class ChatGUI(ChatWindow, ChatHeaderLabel):
             font="Helvetica 10",
             width=20,
             bg="#EE7A84",
-            command=lambda: self._on_enter_pressed(None),
+            command=lambda: self.__on_enter_pressed(None),
         )
         send_button.place(relx=0.77, rely=0.007, relheight=0.022, relwidth=0.22)
 
-    # pylint: disable-next=unused-argument
-    def _on_enter_pressed(self, event):
-        """An on enter press event listener.
-
-        Gets the message and passes it to the insert_message function.
-        """
-        msg = self.entry_box.get()
-        self.insert_message(msg)
-
-    def insert_message(self, msg):
+    def __insert_user_message(self, query):
         """Handles the user's input and shows it in the window.
 
         Args:
-            msg (str): The message from the input.
+            query (str): The message from the input.
         """
 
         # No message guard
-        if not msg:
+        if not query:
             return
 
         # After sending the message, deletes it from the input.
         self.entry_box.delete(0, END)
 
-        msg1 = Label(
+        query_label = Label(
             self.text_widget,
-            text=f"{msg}",
+            text=query,
             background="#ffffd0",
             wraplength=180,
             justify="left",
             padx=10,
             pady=5,
         )
-
-        self.text_widget.tag_configure("tag-right", justify="right")
-        self.text_widget.tag_configure("tag-left", justify="left")
-
         self.text_widget.configure(cursor="arrow", state=NORMAL)
         self.text_widget.insert("end", "\n\n", "tag-right")
-        self.text_widget.window_create("end", window=msg1)
-        # this allings the label to the right hand side
+        self.text_widget.window_create("end", window=query_label)
+
+        # This aligns the label to the right hand side
         self.text_widget.tag_add("tag-right", "end-1c linestart", "end-1c lineend")
         self.text_widget.configure(state=DISABLED)
 
-        # chatbot's response
-        msg = self.bot.get_response(msg)
-        msg2 = Label(
+    def __insert_chat_bot_message(self, response):
+        """Inserts a text bubble on the window from the bot.
+
+        Args:
+            response (str): The bot response to show on the GUI.
+        """
+
+        response_label = Label(
             self.text_widget,
-            text=f"{msg}",
+            text=response,
             background="#ffdbde",
             wraplength=180,
             justify="left",
@@ -190,7 +190,47 @@ class ChatGUI(ChatWindow, ChatHeaderLabel):
         )
         self.text_widget.configure(cursor="arrow", state=NORMAL)
         self.text_widget.insert("end", "\n\n", "tag-left")
-        self.text_widget.window_create("end", window=msg2)
+        self.text_widget.window_create("end", window=response_label)
         self.text_widget.configure(state=DISABLED)
 
         self.text_widget.see(END)
+
+    # pylint: disable-next=unused-argument
+    def __on_enter_pressed(self, event):
+        """An on enter press event listener.
+
+        Gets the message and passes it to a flow handler.
+        """
+
+        user_input = self.entry_box.get()
+        self.__insert_user_message(user_input)
+
+        neg_input = user_input.lower().startswith("n")
+        if self.flow_type == "query":
+            response = self.bot.get_response(user_input)
+            self.__insert_chat_bot_message(response)
+            self.__insert_chat_bot_message("Was this response helpful?")
+            self.flow_type = "feedback"
+        elif self.flow_type == "feedback":
+            if neg_input:
+                self.__insert_chat_bot_message("Would you like to speak with a person?")
+                self.flow_type = "human"
+            else:
+                self.__insert_chat_bot_message("Do you have more questions?")
+                self.flow_type = "more"
+        elif self.flow_type == "more":
+            if neg_input:
+                self.__insert_chat_bot_message("Would you like to speak with a person?")
+                self.flow_type = "human-end"
+            else:
+                self.__insert_chat_bot_message("What else can I help you with?")
+                self.flow_type = "query"
+        elif self.flow_type in ("human", "human-end"):
+            if neg_input:
+                if self.flow_type == "human-end":
+                    self.__insert_chat_bot_message("Thank you for using our chat bot.")
+                else:
+                    self.__insert_chat_bot_message("Do you have more questions?")
+                    self.flow_type = "more"
+            else:
+                self.__insert_chat_bot_message("Here's the details...")
