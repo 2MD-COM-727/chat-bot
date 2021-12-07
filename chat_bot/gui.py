@@ -13,6 +13,7 @@ from dataclasses import dataclass
 from tkinter import Tk, Label, Text, Entry, Button, WORD, DISABLED, NORMAL, END
 import tkinter.scrolledtext as ScrolledText
 
+
 @dataclass
 class ChatWindow:
     """Class constants for the GUI window."""
