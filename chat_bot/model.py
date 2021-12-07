@@ -17,6 +17,7 @@ from tensorflow.keras.optimizers import SGD
 IGNORE = ["!", "?", ".", ","]
 
 
+# pylint: disable=too-many-locals
 def train_model():
     """Saves trained model and word list to files for use in chatbot.py.
 
