@@ -11,8 +11,8 @@ while n < 5:
     gui.insert_user_message("This is a user message")
     sleep(1)
 
-    gui.insert_bot_message("This is a bot message")
     gui.window.update()
+    gui.insert_bot_message("This is a bot message")
     sleep(1)
 
     n += 1
