@@ -12,6 +12,7 @@ Requires 'tkinter' (tk) and can be imported as a class module.
 from dataclasses import dataclass
 from tkinter import Tk, Label, Text, Entry, Button, WORD, DISABLED, NORMAL, END
 import tkinter.scrolledtext as ScrolledText
+from bot import ChatBot
 
 
 @dataclass
@@ -45,6 +46,7 @@ class ChatGUI(ChatWindow, ChatHeaderLabel):
     def __init__(self):
         self.window = Tk()
         self._setup_main_window()
+        self.bot = ChatBot()
 
     def run(self):
         """Initiates the main loop for the tkinter window."""
@@ -176,7 +178,7 @@ class ChatGUI(ChatWindow, ChatHeaderLabel):
         self.text_widget.configure(state=DISABLED)
 
         # chatbot's response
-        msg = "[Insert Bot's response here]"
+        msg = self.bot.get_response(msg)
         msg2 = Label(
             self.text_widget,
             text=f"{msg}",
