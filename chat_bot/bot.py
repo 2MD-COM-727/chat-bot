@@ -72,8 +72,6 @@ class ChatBot:
         # Finds most likely catgory and gets its category number and confidence.
         cat_num, confidence = max(enumerate(prediction), key=lambda x: x[1])
 
-        print(confidence)  # for testing purposes (remove later)
-
         # Assigns last (default) category in json file if confidence is below threshold.
         if confidence < self.threshold:
             cat_num = -1
