@@ -1,6 +1,7 @@
-"""Trains the ChatBot model with given json.
+"""Trains the chatbot model with given json and saves trained model and word list to file.
+Also has two functions for model evaluation that use different methods.
 
-Requires the follwing packages: json, pickle, random, numpy, nltk, and tensorflow.
+Requires the follwing packages: json, pickle, random, numpy, nltk, tensorflow and sklearn.
 """
 
 import json
@@ -17,13 +18,13 @@ from sklearn.model_selection import train_test_split, StratifiedKFold
 
 # pylint: disable=too-many-locals
 def prepare_data():
-    """Saves trained model and word list to files for use in chatbot.py.
+    """Loads queries from data file, processes words in each query
+    and converts processed words and categories into numerical arrays.
 
-    Process: 1) Load queries from data file.
-             2) Process words in each query and store those with their respective category.
-             3) Convert processed words and categories into numerical arrays.
-             4) Use arrays to train neural network model.
+    Returns:
+        (list): Input arrays paired with their corresponding label array.
     """
+
     IGNORE = ["!", "?", ".", ","]
 
     with open("./data/data.json", encoding="utf-8") as data_file:
@@ -73,16 +74,26 @@ def prepare_data():
     return training
 
 
-def build_model(size_x, size_y):
+def build_model(X_size, y_size):
+    """Sets type of model, adds layers, sets hyperparameters and compiles model.
+
+    Args:
+        X_size (int): The length of an input array.
+        y_size (int): The length of an output array.
+
+    Returns:
+        (TensorFlow object): The compiled model ready for training.
+    """
+
     # Neural network (NN) with dropouts to avoid overfitting.
     model = Sequential()
-    model.add(Dense(128, input_shape=(size_x,), activation="relu"))
+    model.add(Dense(128, input_shape=(X_size,), activation="relu"))
     model.add(Dropout(0.2))
     model.add(Dense(64, activation="relu"))
     model.add(Dropout(0.2))
 
     # Output layer has the same number of nodes as labels.
-    model.add(Dense(size_y, activation="softmax"))
+    model.add(Dense(y_size, activation="softmax"))
 
     # Sets the hyperparameters for the NN (optimizer).
     sgd = SGD(learning_rate=0.01, decay=1e-6, momentum=0.9, nesterov=True)
@@ -94,6 +105,13 @@ def build_model(size_x, size_y):
 
 
 def train_and_save_model(training):
+    """Arranges the training data for the model and uses it to train the model,
+    then saves the trained model to a file for use by the chatbot module.
+
+        Args:
+            training (list): The training data returned by prepare_data().
+    """
+
     # Shuffles the training data and splits it into input (x) and output (y).
     shuffle(training)
     training = np.array(training, dtype=object)
@@ -110,6 +128,17 @@ def train_and_save_model(training):
 
 
 def evaluate_ttsplit(training, num_epochs):
+    """Gets the loss and accuracy for the model, depending on the number of epochs
+    specified, using a simple split of the data into training and testing parts.
+
+    Args:
+        training (list): The training data returned by prepare_data().
+        num_epochs (int): The number of epochs to train the model for before testing.
+
+    Returns:
+        (tuple of 2 floats): Values for loss and accuracy.
+    """
+
     training = np.array(training, dtype=object)
     X = np.array([np.array(x) for x in training[:, 0]])
     y = np.array([np.array(x) for x in training[:, 1]])
@@ -123,6 +152,18 @@ def evaluate_ttsplit(training, num_epochs):
 
 
 def evaluate_kfold(training, num_epochs):
+    """Gets the loss and accuracy for the model, depending on the number of epochs
+    specified, using a more advanced testing method called stratified k-fold (better
+    for smaller data sets).
+
+    Args:
+        training (list): The training data returned by prepare_data().
+        num_epochs (int): The number of epochs to train the model for before testing.
+
+    Returns:
+        (tuple of 2 floats): Values for loss and accuracy.
+    """
+
     training = np.array(training, dtype=object)
     X = np.array([np.array(x) for x in training[:, 0]])
     y = np.array([np.array(x) for x in training[:, 1]])
