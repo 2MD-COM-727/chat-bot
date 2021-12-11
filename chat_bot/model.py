@@ -20,6 +20,8 @@ from sklearn.model_selection import train_test_split, StratifiedKFold
 download("punkt")
 download("wordnet")
 
+IGNORE = ["!", "?", ".", ","]
+
 
 class Model:
     """Saves trained model and words list.
@@ -35,12 +37,11 @@ class Model:
     def __init__(self):
         self.all_words = set()
         self.processed_data = []
-        self.training = []
+        self.training_data = []
         self.model = None
         self.category_data = None
         self.X = None
         self.y = None
-        self.ignore = ["!", "?", ".", ","]
 
     def load_process_data(self):
         """Loads and processes the data."""
@@ -57,7 +58,7 @@ class Model:
                 words = [
                     lem.lemmatize(word)
                     for word in word_tokenize(question)
-                    if word not in self.ignore
+                    if word not in IGNORE
                 ]
 
                 # Stores processed words along with its category number.
@@ -85,13 +86,13 @@ class Model:
             output_row[cat_num] = 1
 
             # Stores bag-of-words array alongside output array.
-            self.training.append([bag, output_row])
+            self.training_data.append([bag, output_row])
 
         # Shuffles the training data and splits it into input (X) and labels (y).
-        shuffle(self.training)
-        self.training = np.array(self.training, dtype=object)
-        self.X = np.array(list(self.training[:, 0]))
-        self.y = np.array(list(self.training[:, 1]))
+        shuffle(self.training_data)
+        self.training_data = np.array(self.training_data, dtype=object)
+        self.X = np.array(list(self.training_data[:, 0]))
+        self.y = np.array(list(self.training_data[:, 1]))
 
     def build_model(self, verbose=True):
         """Builds the neural network model, prints a
@@ -100,7 +101,7 @@ class Model:
 
         # Only loads and processes the data if it hasn't been done
         # yet (makes repeated calls to this method more efficient).
-        if type(self.training) == list:
+        if isinstance(self.training_data, list):
             self.load_process_data()
 
         # Neural network (NN) with dropouts to avoid overfitting.
@@ -201,6 +202,3 @@ class Model:
             accuracy_scores.append(acc)
 
         return np.mean(loss_scores), np.mean(accuracy_scores)
-
-model = Model()
-model.train_model()
