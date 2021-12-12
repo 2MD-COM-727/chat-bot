@@ -4,6 +4,7 @@ Requires the follwing packages: json, pickle, random, numpy, nltk, and tensorflo
 """
 
 # pylint: disable=no-name-in-module
+# pylint: disable=invalid-name
 
 import json
 import pickle
@@ -94,10 +95,8 @@ class Model:
         self.X = np.array(list(self.training_data[:, 0]))
         self.y = np.array(list(self.training_data[:, 1]))
 
-    def build_model(self, verbose=True):
-        """Builds the neural network model, prints a
-        summary if verbose is True, and returns the model.
-        """
+    def build_model(self):
+        """Builds the neural network model and prints summary."""
 
         # Only loads and processes the data if it hasn't been done
         # yet (makes repeated calls to this method more efficient).
@@ -123,16 +122,12 @@ class Model:
         )
 
         self.model = model
-
-        if verbose:
-            print(model.summary())
+        print(model.summary())
 
         return model
 
     def train_model(self, epochs=20):
-        """Trains the neural network with given data and
-        hyperparameters and saves the trained model to file.
-        """
+        """Trains the NN with given data and hyperparameters and saves it to file."""
 
         self.build_model()
 
@@ -149,8 +144,9 @@ class Model:
         self.model.save("chat_bot/data/trained_model.h5", trained_model)
 
     def evaluate_ttsplit(self, num_epochs):
-        """Gets the loss and accuracy for the model, depending on the number of epochs
-        specified, using a simple split of the data into training and testing parts.
+        """Gets the loss and accuracy for the model.
+
+        Evaluated using train-test split of 4:1.
 
         Args:
             num_epochs (int): The number of epochs to train the model for before testing.
@@ -159,22 +155,19 @@ class Model:
             Values for loss and accuracy (tuple of 2 floats).
         """
 
-        model = self.build_model(verbose=False)
+        model = self.build_model()
 
         X_train, X_test, y_train, y_test = train_test_split(
-            self.X,
-            self.y,
-            test_size=0.25,
-            stratify=self.y
+            self.X, self.y, test_size=0.25, stratify=self.y
         )
         model.fit(X_train, y_train, epochs=num_epochs, batch_size=5, verbose=0)
 
         return model.evaluate(X_test, y_test, verbose=0)
 
     def evaluate_kfold(self, num_epochs):
-        """Gets the loss and accuracy for the model, depending on the number of epochs
-        specified, using a more advanced testing method called stratified k-fold (better
-        for smaller data sets).
+        """Gets the loss and accuracy for the model.
+
+        Uses different number of epochs with stratified k-fold (better for smaller data sets).
 
         Args:
             num_epochs (int): The number of epochs to train the model for before testing.
@@ -185,23 +178,16 @@ class Model:
 
         skf = StratifiedKFold(n_splits=8, shuffle=True, random_state=1)
 
-        model = self.build_model(verbose=False)
+        model = self.build_model()
 
         loss_scores = []
         accuracy_scores = []
         for train, test in skf.split(self.X, self.y.argmax(1)):
             model.fit(
-                self.X[train],
-                self.y[train],
-                epochs=num_epochs,
-                batch_size=5,
-                verbose=0
+                self.X[train], self.y[train], epochs=num_epochs, batch_size=5, verbose=0
             )
             loss, acc = model.evaluate(self.X[test], self.y[test], verbose=0)
             loss_scores.append(loss)
             accuracy_scores.append(acc)
 
         return np.mean(loss_scores), np.mean(accuracy_scores)
-
-m = Model()
-m.train_model()

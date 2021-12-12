@@ -208,11 +208,17 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
             response = self.bot.get_response(user_input)
             if response is None:
                 if not self.default_answer_given:
-                    self.__insert_chat_bot_message("I'm sorry, could you rephrase that?")
+                    self.__insert_chat_bot_message(
+                        "I'm sorry, could you rephrase that?"
+                    )
                     self.default_answer_given = True
                 else:
-                    self.__insert_chat_bot_message("I'm sorry, I don't know how to answer that.")
-                    self.__insert_chat_bot_message("Would you like to speak with a person?")
+                    self.__insert_chat_bot_message(
+                        "I'm sorry, I don't know how to answer that."
+                    )
+                    self.__insert_chat_bot_message(
+                        "Would you like to speak with a person?"
+                    )
                     self.default_answer_given = False
                     self.flow_type = "human"
             else:
