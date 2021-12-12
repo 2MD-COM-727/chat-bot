@@ -9,7 +9,7 @@ start:
 start-admin:
 	python3 chat_bot/main.py --admin || python chat_bot/main.py --admin
 test:
-	coverage run -m unittest discover -v tests || coverage run -m unittest discover -v tests
+	coverage run -m unittest discover -v chat_bot || coverage run -m unittest discover -v chat_bot
 	@echo ""
 	coverage report -m
 host-cov:

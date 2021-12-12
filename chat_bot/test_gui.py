@@ -5,8 +5,11 @@ Tests the following: the tkinter window and header instance/style.
 Requires the following packages: unittest and chat_bot.
 """
 
+import sys
+sys.path.append("../")
+
 import unittest
-from chat_bot.gui import ChatGUI
+from gui import ChatGUI
 
 
 class TestGUI(unittest.TestCase):
