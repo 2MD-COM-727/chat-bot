@@ -13,7 +13,7 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath("../.."))
+sys.path.insert(0, os.path.abspath("../../chat_bot"))
 
 
 # -- Project information -----------------------------------------------------
@@ -23,7 +23,7 @@ copyright = "2021, Mikey L, Darius A, Denise T, and Maggie N"
 author = "Mikey L, Darius A, Denise T, and Maggie N"
 
 # The full version, including alpha/beta/rc tags
-release = "1.0.0"
+release = "1.1.0"
 
 
 # -- General configuration ---------------------------------------------------

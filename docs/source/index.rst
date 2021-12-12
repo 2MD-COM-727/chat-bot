@@ -8,4 +8,4 @@ ChatBot Documentation
    :maxdepth: 2
    :caption: Contents:
 
-   modules
+   chat_bot

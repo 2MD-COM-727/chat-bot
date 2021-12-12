@@ -6,7 +6,7 @@ Requires the following packages: unittest and chat_bot.
 """
 
 import unittest
-from chat_bot.gui import ChatGUI
+from gui import ChatGUI
 
 
 class TestGUI(unittest.TestCase):

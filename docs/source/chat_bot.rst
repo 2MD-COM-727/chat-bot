@@ -4,7 +4,7 @@ chat\_bot package
 chat\_bot.main module
 ---------------------
 
-.. automodule:: chat_bot.main
+.. automodule:: main
    :members:
    :undoc-members:
    :show-inheritance:
@@ -12,7 +12,7 @@ chat\_bot.main module
 chat\_bot.gui module
 --------------------
 
-.. automodule:: chat_bot.gui
+.. automodule:: gui
    :members:
    :undoc-members:
    :show-inheritance:
@@ -20,7 +20,7 @@ chat\_bot.gui module
 chat\_bot.catalogue module
 --------------------------
 
-.. automodule:: chat_bot.catalogue
+.. automodule:: catalogue
    :members:
    :undoc-members:
    :show-inheritance:
@@ -28,7 +28,7 @@ chat\_bot.catalogue module
 chat\_bot.bot module
 --------------------------
 
-.. automodule:: chat_bot.bot
+.. automodule:: bot
    :members:
    :undoc-members:
    :show-inheritance:
@@ -36,7 +36,7 @@ chat\_bot.bot module
 chat\_bot.model module
 --------------------------
 
-.. automodule:: chat_bot.model
+.. automodule:: model
    :members:
    :undoc-members:
    :show-inheritance:

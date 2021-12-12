@@ -7,7 +7,7 @@ Requires the following packages: unittest and chat_bot.
 
 from unittest import TestCase, main as run_tests
 from unittest.mock import patch
-from chat_bot.catalogue import run
+from catalogue import run
 
 
 class TestCatalogue(TestCase):

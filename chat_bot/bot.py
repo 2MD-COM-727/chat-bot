@@ -22,7 +22,7 @@ class ChatBot:
     def __init__(self, threshold=0.75):
 
         # Loads data saved during training with model.py.
-        with open("chat_bot/data/data.json", encoding="utf-8") as data_file:
+        with open("chat_bot/data/query_data.json", encoding="utf-8") as data_file:
             self.data = json.load(data_file)["categories"]
         with open("chat_bot/data/words.pkl", "rb") as words_file:
             self.all_words = pickle.load(words_file)
@@ -38,9 +38,9 @@ class ChatBot:
             query (str): Raw query from user.
 
         Returns:
-            numpy array: Array of 1s and 0s generated according to the bag-of-words
-                         model (en.wikipedia.org/wiki/Bag-of-words_model), making the
-                         assumption that the query contains only one of each word.
+            ndarray: Array of 1s and 0s generated according to the bag-of-words
+                     model (en.wikipedia.org/wiki/Bag-of-words_model), making the
+                     assumption that the query contains only one of each word.
         """
 
         # Splits up the query into words and converts words into stems.
@@ -69,12 +69,9 @@ class ChatBot:
         # Gets model's prediction of likelihood of each category.
         prediction = self.model.predict(bow)[0]
 
-        # Finds most likely catgory and gets its category number and confidence.
-        cat_num, confidence = max(enumerate(prediction), key=lambda x: x[1])
+        # Finds most likely catgory and gets its category number and probability.
+        cat_num, prob = max(enumerate(prediction), key=lambda x: x[1])
 
-        # Assigns last (default) category in json file if confidence is below threshold.
-        if confidence < self.threshold:
-            cat_num = -1
-
-        # Returns response from json data file according to category number.
-        return self.data[cat_num]["response"]
+        # Returns response from json data file if probability is above threshold,
+        # otherwise returns None.
+        return self.data[cat_num]["response"] if prob > self.threshold else None

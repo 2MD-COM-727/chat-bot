@@ -64,7 +64,7 @@ if __name__ == "__main__":
     if args.admin:
         option = get_admin_option()
         if option == "1":
-            model.build_model()
+            print(model.build_model().summary())
         elif option == "2":
             model.train_model()
     else:
