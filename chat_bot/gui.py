@@ -59,6 +59,7 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
     def __init__(self):
         self.window = Tk()
         self.flow_type = "query"
+        self.default_answer_given = False
         self.text_widget = None
         self.bot = ChatBot()
 
@@ -205,11 +206,18 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
         neg_input = user_input.lower().startswith("n")
         if self.flow_type == "query":
             response = self.bot.get_response(user_input)
-            self.__insert_chat_bot_message(response)
-            if "I'm sorry" in response:
-                self.__insert_chat_bot_message("Would you like to speak with a person?")
-                self.flow_type = "human"
+            if response is None:
+                if not self.default_answer_given:
+                    self.__insert_chat_bot_message("I'm sorry, could you rephrase that?")
+                    self.default_answer_given = True
+                else:
+                    self.__insert_chat_bot_message("I'm sorry, I don't know how to answer that.")
+                    self.__insert_chat_bot_message("Would you like to speak with a person?")
+                    self.default_answer_given = False
+                    self.flow_type = "human"
             else:
+                self.__insert_chat_bot_message(response)
+                self.default_answer_given = False
                 self.__insert_chat_bot_message("Was this response helpful?")
                 self.flow_type = "feedback"
         elif self.flow_type == "feedback":

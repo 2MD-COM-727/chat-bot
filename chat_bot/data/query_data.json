@@ -43,10 +43,5 @@
 	"label": "study rooms",
 	"questions": ["booking study rooms", "how can i book an individual room?", "how can i book a group study room?", "how can i book a study room?", "how can I book a study room?", "how long is the room booking?", "how long can i use the study room?", "how many hours can i use the study room?", "how can i extend the booking for a study room?", "i want to extend the study room booking", "i have no booking for study room", "i haven't booked a study room", "no booking for study room", "i wanna book a group study room", "i wanna book an individual study room", "i wanna book a silent study room", "i wanna book a small group study room", "how many bookable group study rooms does the library has?", "do i need my student id to book a study room?", "do you have silent individual study rooms?", "how long can i book a study room for?", "when can i book a study room?", "how much time in advance i can book a study room for?", "i don't have a booking, but i want to use a group study room, can i?", "can i extend my booking?", "can i have multiple bookings in a row?", "do you have a guide to book a room?", "give me the link for booking a study room", "i need the link to book a individual study room", "i want to book a study room in a silent area", "can i book a study room that has a mac?", "can i book a study room that has a pc?", "can i use a group study room for individual study?"],
 	"response": "For general information regarding study spaces within the library (which includes individual and group study rooms) please visit this link here: https://libguides.solent.ac.uk/bookings/rooms and when you are ready to book a room access this link: https://mypc.solent.ac.uk/MyPC/BookingGrid.htm"
-  },
-  {
-	"label": "unknown",
-	"questions": [],
-	"response": "I'm sorry, could you rephrase that?"
   }
 ]}

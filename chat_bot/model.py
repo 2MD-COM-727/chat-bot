@@ -50,7 +50,7 @@ class Model:
             self.category_data = json.loads(data_file.read())["categories"]
         lem = WordNetLemmatizer()
 
-        for i, category in enumerate(self.category_data[:-1]):
+        for i, category in enumerate(self.category_data):
             for question in category["questions"]:
 
                 # Splits up the question into words
@@ -82,7 +82,7 @@ class Model:
             bag = [1 if word in query_words else 0 for word in self.all_words]
 
             # For categories/labels, use array of 0s with correct category indicated by a 1.
-            output_row = [0] * (len(self.category_data) - 1)
+            output_row = [0] * len(self.category_data)
             output_row[cat_num] = 1
 
             # Stores bag-of-words array alongside output array.
@@ -202,3 +202,6 @@ class Model:
             accuracy_scores.append(acc)
 
         return np.mean(loss_scores), np.mean(accuracy_scores)
+
+m = Model()
+m.train_model()

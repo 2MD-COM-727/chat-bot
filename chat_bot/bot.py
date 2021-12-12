@@ -69,12 +69,9 @@ class ChatBot:
         # Gets model's prediction of likelihood of each category.
         prediction = self.model.predict(bow)[0]
 
-        # Finds most likely catgory and gets its category number and confidence.
-        cat_num, confidence = max(enumerate(prediction), key=lambda x: x[1])
+        # Finds most likely catgory and gets its category number and probability.
+        cat_num, prob = max(enumerate(prediction), key=lambda x: x[1])
 
-        # Assigns last (default) category in json file if confidence is below threshold.
-        if confidence < self.threshold:
-            cat_num = -1
-
-        # Returns response from json data file according to category number.
-        return self.data[cat_num]["response"]
+        # Returns response from json data file if probability is above threshold,
+        # otherwise returns None.
+        return self.data[cat_num]["response"] if prob > self.threshold else None
