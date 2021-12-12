@@ -247,5 +247,5 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
             else:
                 response = "Taking you to speak with a person..."
                 web_open("https://libguides.solent.ac.uk/chat")
-        
+
         return response
