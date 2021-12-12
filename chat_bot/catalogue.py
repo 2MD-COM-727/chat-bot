@@ -7,6 +7,7 @@ from webbrowser import open as web_open
 
 MENU = """
 Search by:
+
 1. Book title
 2. Author
 3. Subject
@@ -23,18 +24,12 @@ OPTIONS_MAP = {
 }
 
 
-def run():
+def find_item(option, query):
     """Creates a query on the Solent Library's Catalogue.
 
     User can select between searches by book title, author, and subject area.
     Results will be shown as a redirect to the Solent Catalogue.
     """
-
-    print(MENU)
-    option = input(">>> ")
-
-    print(f"\nWhat {OPTIONS_MAP_LABEL[option]} would you like to search for?")
-    query = input(">>> ")
 
     query_url = (
         "https://catalogue.solent.ac.uk/discovery/search?"

@@ -6,19 +6,16 @@ Requires the following packages: unittest and chat_bot.
 """
 
 from unittest import TestCase, main as run_tests
-from unittest.mock import patch
-from catalogue import run
+from catalogue import find_item
 
 
 class TestCatalogue(TestCase):
     """Test instance for the catalogue module."""
 
-    @patch("builtins.input", side_effect=["1", "sport"])
-    # pylint: disable-next=unused-argument
-    def test_simple_book_search(self, mock_inputs):
+    def test_simple_book_search(self):
         """Tests search by title option with a single word."""
 
-        result = run()
+        result = find_item("1", "sport")
         target = (
             "https://catalogue.solent.ac.uk/discovery/search?"
             "query=title,contains,sport&tab=Combined&"
@@ -26,12 +23,10 @@ class TestCatalogue(TestCase):
         )
         self.assertEqual(result, target)
 
-    @patch("builtins.input", side_effect=["2", "McGill"])
-    # pylint: disable-next=unused-argument
-    def test_simple_author_search(self, mock_inputs):
+    def test_simple_author_search(self):
         """Tests search by author option with a single word."""
 
-        result = run()
+        result = find_item("2", "McGill")
         target = (
             "https://catalogue.solent.ac.uk/discovery/search?"
             "query=creator,contains,McGill&tab=Combined&"
@@ -39,12 +34,10 @@ class TestCatalogue(TestCase):
         )
         self.assertEqual(result, target)
 
-    @patch("builtins.input", side_effect=["3", "maths"])
-    # pylint: disable-next=unused-argument
-    def test_simple_subject_search(self, mock_inputs):
+    def test_simple_subject_search(self):
         """Tests search by subject option with a single word."""
 
-        result = run()
+        result = find_item("3", "maths")
         target = (
             "https://catalogue.solent.ac.uk/discovery/search?"
             "query=sub,contains,maths&tab=Combined&"

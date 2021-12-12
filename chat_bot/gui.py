@@ -7,14 +7,15 @@ Requires 'tkinter' (tk) and can be imported as a class module.
         app.run()
 """
 
-# pylint: disable=super-init-not-called
-# pylint: disable=too-few-public-methods
+# pylint: disable=super-init-not-called, too-few-public-methods, too-many-instance-attributes
+
 from dataclasses import dataclass
 from tkinter import Tk, Label, Text, Entry, Button, WORD, DISABLED, NORMAL, END
 import tkinter.scrolledtext as ScrolledText
 from webbrowser import open as web_open
 
 from bot import ChatBot
+from catalogue import find_item, MENU, OPTIONS_MAP_LABEL
 
 
 @dataclass
@@ -61,6 +62,7 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
         self.default_answer_given = False
         self.text_widget = None
         self.bot = ChatBot()
+        self.catalogue_option = None
 
         self.__setup_main_window()
         self.text_widget.tag_configure("tag-right", justify="right")
@@ -204,7 +206,7 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
         self.__insert_user_message(user_input)
 
         if (
-            self.flow_type in ("feedback", "more", "human")
+            self.flow_type in ("feedback", "more", "human", "catalogue")
             and not user_input.lower().startswith("n")
             and not user_input.lower().startswith("y")
         ):
@@ -212,14 +214,23 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
                 "Sorry, I didn't understand that. Please enter yes or no."
             )
 
-        bot_response = self.__get_response(user_input)
-        self.__insert_chat_bot_message(bot_response)
+        query_response = self.bot.get_response(user_input)
+        bot_response = self.__get_response(user_input, query_response)
+
+        if query_response == "catalogue":
+            self.__insert_chat_bot_message(
+                "You can find the full catalogues of books,"
+                " journals and papers here:"
+                " https://catalogue.solent.ac.uk/discovery/search?vid=44SSU_INST:VU1\n\n"
+                "Would you like to search the Solent Library Catalogue?"
+            )
+            self.flow_type = "catalogue"
+        else:
+            self.__insert_chat_bot_message(bot_response)
 
     # pylint: disable-next=too-many-branches
-    def __get_response(self, user_input):
-        """Takes what the user typed and returns an apprpriate response
-        that's either hard-coded or from the neural network bot, depending
-        on the stage of the conversation.
+    def __get_response(self, user_input, query_response):
+        """Takes user input and returns an appropriate response.
 
         Args:
             user_input (str): The text that the user typed into the box.
@@ -231,7 +242,6 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
         neg_input = user_input.lower().startswith("n")
 
         if self.flow_type == "query":
-            query_response = self.bot.get_response(user_input)
             if query_response:
                 response = query_response + "\n\nWas this response helpful?"
                 self.default_answer_given = False
@@ -277,5 +287,23 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
             else:
                 response = "Taking you to speak with a person..."
                 web_open("https://libguides.solent.ac.uk/chat")
+
+        elif self.flow_type == "catalogue":
+            if neg_input:
+                response = "Do you have any more questions?"
+                self.flow_type = "more"
+            else:
+                response = MENU
+                self.flow_type = "catalogue-1"
+        elif self.flow_type == "catalogue-1":
+            response = (
+                f"What {OPTIONS_MAP_LABEL[user_input]} would you like to search for?"
+            )
+            self.catalogue_option = user_input
+            self.flow_type = "catalogue-2"
+        elif self.flow_type == "catalogue-2":
+            find_item(self.catalogue_option, user_input)
+            response = "Do you have any more questions?"
+            self.flow_type = "more"
 
         return response
