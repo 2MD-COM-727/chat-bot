@@ -205,15 +205,6 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
         user_input = self.entry_box.get()
         self.__insert_user_message(user_input)
 
-        if (
-            self.flow_type in ("feedback", "more", "human", "catalogue")
-            and not user_input.lower().startswith("n")
-            and not user_input.lower().startswith("y")
-        ):
-            return self.__insert_chat_bot_message(
-                "Sorry, I didn't understand that. Please enter yes or no."
-            )
-
         query_response = self.bot.get_response(user_input)
         bot_response = self.__get_response(user_input, query_response)
 
