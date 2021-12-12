@@ -192,6 +192,7 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
         self.text_widget.insert("end", "\n\n", "tag-left")
         self.text_widget.window_create("end", window=response_label)
         self.text_widget.configure(state=DISABLED)
+        self.text_widget.see(END)
 
     # pylint: disable-next=unused-argument, too-many-branches
     def __on_enter_pressed(self, event):
