@@ -68,10 +68,10 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
         self.window.resizable(True, True)
 
         self.__insert_chat_bot_message(
-            "Hi, I'm Solent Lib Chatbot. I can help you with any query regarding "
-            "library's opening times, printing info, booking group/individual "
-            "study rooms or computers, borrowing laptops, available software and "
-            "computer types alongside their location and lastly, books location."
+            "Hi! I'm the Solent Library's Chatbot. I can help you with any query regarding "
+            "the library's opening times and access, booking study rooms or computers, the "
+            "location of books, available ebooks, borrowing laptops, printing at the library, "
+            "and available software and computer types along with their locations."
         )
 
     def run(self):
@@ -202,63 +202,50 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
 
         user_input = self.entry_box.get()
         self.__insert_user_message(user_input)
-        neg_input = user_input.lower().startswith("n")
+        bot_response = self.__get_response(user_input)
+        self.__insert_chat_bot_message(bot_response)
 
+    def __get_response(self, user_input):
+        neg_input = user_input.lower().startswith("n")
+        
         if self.flow_type == "query":
-            response = self.bot.get_response(user_input)
-            if response:
-                self.__insert_chat_bot_message(response)
+            query_response = self.bot.get_response(user_input)
+            if query_response:
+                response = query_response + "\n\nWas this response helpful?"
                 self.default_answer_given = False
-                self.__insert_chat_bot_message(
-                    "Was this response helpful?"
-                )
                 self.flow_type = "feedback"
             else:
                 if not self.default_answer_given:
-                    self.__insert_chat_bot_message(
-                        "I'm sorry, could you rephrase that?"
-                    )
+                    response = "I'm sorry, could you rephrase that?"
                     self.default_answer_given = True
                 else:
-                    self.__insert_chat_bot_message(
-                        "I'm sorry, I don't know how to answer that. "
-                        "Would you like to speak with a person?"
-                    )
+                    response = "\n".join(("I'm sorry, I don't know how to answer that.",
+                                          "Would you like to speak with a person?"))
                     self.default_answer_given = False
                     self.flow_type = "human"
 
         elif self.flow_type == "feedback":
             if neg_input:
-                self.__insert_chat_bot_message(
-                    "Would you like to speak with a person?"
-                )
+                response = "Would you like to speak with a person?"
                 self.flow_type = "human"
             else:
-                self.__insert_chat_bot_message(
-                    "Do you have any more questions?"
-                )
+                response = "Do you have any more questions?"
                 self.flow_type = "more"
 
         elif self.flow_type == "more":
             if neg_input:
-                self.__insert_chat_bot_message(
-                    "Thank you for using the library's chatbot. "
-                    "You can close this window now."
-                )
+                response = "\n".join(("Thank you for using the library's chatbot.",
+                                      "You can close this window now."))
             else:
-                self.__insert_chat_bot_message(
-                    "What else can I help you with?"
-                )
+                response = "What else can I help you with?"
                 self.flow_type = "query"
 
         elif self.flow_type == "human":
             if neg_input:
-                self.__insert_chat_bot_message(
-                    "Do you have any more questions?"
-                )
+                response = "Do you have any more questions?"
                 self.flow_type = "more"
             else:
-                self.__insert_chat_bot_message(
-                    "Taking you to speak with a person..."
-                )
+                response = "Taking you to speak with a person..."
                 web_open("https://libguides.solent.ac.uk/chat")
+        
+        return response
