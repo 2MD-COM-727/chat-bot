@@ -193,7 +193,7 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
         self.text_widget.configure(state=DISABLED)
         self.text_widget.see(END)
 
-    # pylint: disable-next=unused-argument, too-many-branches
+    # pylint: disable-next=unused-argument, inconsistent-return-statements
     def __on_enter_pressed(self, event):
         """An on enter press event listener.
 
@@ -202,10 +202,30 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
 
         user_input = self.entry_box.get()
         self.__insert_user_message(user_input)
+
+        if (
+            self.flow_type in ("feedback", "more", "human")
+            and not user_input.lower().startswith("n")
+            and not user_input.lower().startswith("y")
+        ):
+            return self.__insert_chat_bot_message(
+                "Sorry, I didn't understand that. Please enter yes or no."
+            )
+
         bot_response = self.__get_response(user_input)
         self.__insert_chat_bot_message(bot_response)
 
+    # pylint: disable-next=too-many-branches
     def __get_response(self, user_input):
+        """[summary]
+
+        Args:
+            user_input (str): [description]
+
+        Returns:
+            str: [description]
+        """
+
         neg_input = user_input.lower().startswith("n")
 
         if self.flow_type == "query":
@@ -219,8 +239,12 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
                     response = "I'm sorry, could you rephrase that?"
                     self.default_answer_given = True
                 else:
-                    response = "\n".join(("I'm sorry, I don't know how to answer that.",
-                                          "Would you like to speak with a person?"))
+                    response = "\n".join(
+                        (
+                            "I'm sorry, I don't know how to answer that.",
+                            "Would you like to speak with a person?",
+                        )
+                    )
                     self.default_answer_given = False
                     self.flow_type = "human"
 
@@ -234,8 +258,12 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
 
         elif self.flow_type == "more":
             if neg_input:
-                response = "\n".join(("Thank you for using the library's chatbot.",
-                                      "You can close this window now."))
+                response = "\n".join(
+                    (
+                        "Thank you for using the library's chatbot.",
+                        "You can close this window now.",
+                    )
+                )
             else:
                 response = "What else can I help you with?"
                 self.flow_type = "query"
