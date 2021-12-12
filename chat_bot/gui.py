@@ -165,9 +165,11 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
             pady=self.MSG_PAD_Y,
         )
         self.text_widget.configure(cursor="arrow", state=NORMAL)
-        self.text_widget.insert("end", "\n\n", "tag-left")
+        self.text_widget.insert("end", "\n\n", "tag-right")
         self.text_widget.window_create("end", window=query_label)
         self.text_widget.configure(state=DISABLED)
+        self.text_widget.tag_add("tag-right", "end-1c linestart", "end-1c lineend")
+        self.text_widget.see(END)
 
     def __insert_chat_bot_message(self, response):
         """Inserts a text bubble on the window from the bot.
@@ -187,11 +189,9 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
             pady=self.MSG_PAD_Y,
         )
         self.text_widget.configure(cursor="arrow", state=NORMAL)
-        self.text_widget.insert("end", "\n\n", "tag-right")
+        self.text_widget.insert("end", "\n\n", "tag-left")
         self.text_widget.window_create("end", window=response_label)
         self.text_widget.configure(state=DISABLED)
-        self.text_widget.tag_add("tag-right", "end-1c linestart", "end-1c lineend")
-        self.text_widget.see(END)
 
     # pylint: disable-next=unused-argument, too-many-branches
     def __on_enter_pressed(self, event):
