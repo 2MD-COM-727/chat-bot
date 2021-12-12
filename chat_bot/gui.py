@@ -9,7 +9,6 @@ Requires 'tkinter' (tk) and can be imported as a class module.
 
 # pylint: disable=super-init-not-called
 # pylint: disable=too-few-public-methods
-
 from dataclasses import dataclass
 from tkinter import Tk, Label, Text, Entry, Button, WORD, DISABLED, NORMAL, END
 import tkinter.scrolledtext as ScrolledText
@@ -203,11 +202,18 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
 
         user_input = self.entry_box.get()
         self.__insert_user_message(user_input)
-
         neg_input = user_input.lower().startswith("n")
+
         if self.flow_type == "query":
             response = self.bot.get_response(user_input)
-            if response is None:
+            if response:
+                self.__insert_chat_bot_message(response)
+                self.default_answer_given = False
+                self.__insert_chat_bot_message(
+                    "Was this response helpful?"
+                )
+                self.flow_type = "feedback"
+            else:
                 if not self.default_answer_given:
                     self.__insert_chat_bot_message(
                         "I'm sorry, could you rephrase that?"
@@ -215,39 +221,44 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
                     self.default_answer_given = True
                 else:
                     self.__insert_chat_bot_message(
-                        "I'm sorry, I don't know how to answer that."
-                    )
-                    self.__insert_chat_bot_message(
+                        "I'm sorry, I don't know how to answer that. "
                         "Would you like to speak with a person?"
                     )
                     self.default_answer_given = False
                     self.flow_type = "human"
-            else:
-                self.__insert_chat_bot_message(response)
-                self.default_answer_given = False
-                self.__insert_chat_bot_message("Was this response helpful?")
-                self.flow_type = "feedback"
+
         elif self.flow_type == "feedback":
             if neg_input:
-                self.__insert_chat_bot_message("Would you like to speak with a person?")
+                self.__insert_chat_bot_message(
+                    "Would you like to speak with a person?"
+                )
                 self.flow_type = "human"
             else:
-                self.__insert_chat_bot_message("Do you have more questions?")
+                self.__insert_chat_bot_message(
+                    "Do you have any more questions?"
+                )
                 self.flow_type = "more"
+
         elif self.flow_type == "more":
             if neg_input:
-                self.__insert_chat_bot_message("Would you like to speak with a person?")
-                self.flow_type = "human-end"
+                self.__insert_chat_bot_message(
+                    "Thank you for using the library's chatbot. "
+                    "You can close this window now."
+                )
             else:
-                self.__insert_chat_bot_message("What else can I help you with?")
+                self.__insert_chat_bot_message(
+                    "What else can I help you with?"
+                )
                 self.flow_type = "query"
-        elif self.flow_type in ("human", "human-end"):
+
+        elif self.flow_type == "human":
             if neg_input:
-                if self.flow_type == "human-end":
-                    self.__insert_chat_bot_message("Thank you for using our chat bot.")
-                else:
-                    self.__insert_chat_bot_message("Do you have more questions?")
-                    self.flow_type = "more"
+                self.__insert_chat_bot_message(
+                    "Do you have any more questions?"
+                )
+                self.flow_type = "more"
             else:
-                self.__insert_chat_bot_message("Taking you to speak with a person...")
+                self.__insert_chat_bot_message(
+                    "Taking you to speak with a person..."
+                )
                 web_open("https://libguides.solent.ac.uk/chat")
