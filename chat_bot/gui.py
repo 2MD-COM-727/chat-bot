@@ -207,7 +207,7 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
 
     def __get_response(self, user_input):
         neg_input = user_input.lower().startswith("n")
-        
+
         if self.flow_type == "query":
             query_response = self.bot.get_response(user_input)
             if query_response:
