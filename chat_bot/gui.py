@@ -230,13 +230,13 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
 
     # pylint: disable-next=too-many-branches
     def __get_response(self, user_input, query_response):
-        """[summary]
+        """Takes user input and returns an appropriate response.
 
         Args:
-            user_input (str): [description]
+            user_input (str): The text that the user typed into the box.
 
         Returns:
-            str: [description]
+            str: What the chatbot should say in response to the user's input.
         """
 
         neg_input = user_input.lower().startswith("n")
