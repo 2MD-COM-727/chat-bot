@@ -122,8 +122,6 @@ class Model:
         )
 
         self.model = model
-        print(model.summary())
-
         return model
 
     def train_model(self, epochs=20):
