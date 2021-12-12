@@ -150,7 +150,7 @@ class Model:
             num_epochs (int): The number of epochs to train the model for before testing.
 
         Returns:
-            Values for loss and accuracy (tuple of 2 floats).
+            tuple[float, float]: Values for loss and accuracy.
         """
 
         model = self.build_model()
@@ -171,7 +171,7 @@ class Model:
             num_epochs (int): The number of epochs to train the model for before testing.
 
         Returns:
-            Values for loss and accuracy (tuple of 2 floats).
+            tuple[float, float]: Values for loss and accuracy.
         """
 
         skf = StratifiedKFold(n_splits=8, shuffle=True, random_state=1)

@@ -38,9 +38,9 @@ class ChatBot:
             query (str): Raw query from user.
 
         Returns:
-            numpy array: Array of 1s and 0s generated according to the bag-of-words
-                         model (en.wikipedia.org/wiki/Bag-of-words_model), making the
-                         assumption that the query contains only one of each word.
+            ndarray: Array of 1s and 0s generated according to the bag-of-words
+                     model (en.wikipedia.org/wiki/Bag-of-words_model), making the
+                     assumption that the query contains only one of each word.
         """
 
         # Splits up the query into words and converts words into stems.
