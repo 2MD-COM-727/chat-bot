@@ -127,7 +127,7 @@ class Model:
     def train_model(self, epochs=20):
         """Trains the NN with given data and hyperparameters and saves it to file."""
 
-        self.build_model()
+        print(self.build_model().summary())
 
         # Trains the model with our input arrays and label arrays.
         trained_model = self.model.fit(
