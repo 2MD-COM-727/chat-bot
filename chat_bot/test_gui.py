@@ -5,9 +5,6 @@ Tests the following: the tkinter window and header instance/style.
 Requires the following packages: unittest and chat_bot.
 """
 
-import sys
-sys.path.append("../")
-
 import unittest
 from gui import ChatGUI
 
