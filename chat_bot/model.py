@@ -46,7 +46,7 @@ class Model:
     def load_process_data(self):
         """Loads and processes the data."""
 
-        with open("data/query_data.json", encoding="utf-8") as data_file:
+        with open("chat_bot/data/query_data.json", encoding="utf-8") as data_file:
             self.category_data = json.loads(data_file.read())["categories"]
         lem = WordNetLemmatizer()
 
@@ -69,7 +69,7 @@ class Model:
 
         # Fixes the order of the master word list and saves it to a file.
         self.all_words = list(self.all_words)
-        with open("data/words.pkl", "wb") as words_file:
+        with open("chat_bot/data/words.pkl", "wb") as words_file:
             pickle.dump(self.all_words, words_file)
 
         # Converts input to numerical arrays for the neural network.
@@ -146,7 +146,7 @@ class Model:
         )
 
         # Saves the model to a file for use in bot.py.
-        self.model.save("data/trained_model.h5", trained_model)
+        self.model.save("chat_bot/data/trained_model.h5", trained_model)
 
     def evaluate_ttsplit(self, num_epochs):
         """Gets the loss and accuracy for the model, depending on the number of epochs
