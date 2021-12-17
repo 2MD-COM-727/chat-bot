@@ -189,3 +189,12 @@ class Model:
             accuracy_scores.append(acc)
 
         return np.mean(loss_scores), np.mean(accuracy_scores)
+
+    def show_graph(self):
+        for i in range(1, 21):
+            result = self.evaluate_kfold(i)
+            print(f"{i} epochs\tloss: {result[0]:.2f}\taccuracy: {result[1]:.1%}")
+
+
+model = Model()
+model.show_graph()
