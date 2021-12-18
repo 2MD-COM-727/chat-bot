@@ -10,12 +10,14 @@ import json
 import pickle
 from random import shuffle
 import numpy as np
+import matplotlib.pyplot as plt
 from nltk import word_tokenize, download
 from nltk.stem import WordNetLemmatizer
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout
 from tensorflow.keras.optimizers import SGD
 from sklearn.model_selection import train_test_split, StratifiedKFold
+
 
 
 download("punkt")
@@ -47,7 +49,7 @@ class Model:
     def load_process_data(self):
         """Loads and processes the data."""
 
-        with open("chat_bot/data/query_data.json", encoding="utf-8") as data_file:
+        with open("data/query_data.json", encoding="utf-8") as data_file:
             self.category_data = json.loads(data_file.read())["categories"]
         lem = WordNetLemmatizer()
 
@@ -70,7 +72,7 @@ class Model:
 
         # Fixes the order of the master word list and saves it to a file.
         self.all_words = list(self.all_words)
-        with open("chat_bot/data/words.pkl", "wb") as words_file:
+        with open("data/words.pkl", "wb") as words_file:
             pickle.dump(self.all_words, words_file)
 
         # Converts input to numerical arrays for the neural network.
@@ -191,32 +193,24 @@ class Model:
         return np.mean(loss_scores), np.mean(accuracy_scores)
 
     def show_graph(self):
-        for i in range(1, 21):
+        x = []
+        loss = []
+        acc = []
+
+        for i in range(1, 6):
             result = self.evaluate_kfold(i)
             print(f"{i} epochs\tloss: {result[0]:.2f}\taccuracy: {result[1]:.1%}")
+            x.append(i)
+            loss.append(result[0])
+            acc.append(result[1])
 
+        fig, axs = plt.subplots(2, 1, sharex="col")
+        #plt.xlabel("Epochs")
+        #plt.ylabel("Loss")
+
+        axs[0].plot(x, loss)
+        axs[1].plot(x, acc)
+        plt.show()
 
 model = Model()
 model.show_graph()
-
-import matplotlib.pyplot as plt
-
-x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-y = []
-
-plt.xlabel("x values")
-plt.ylabel("y values")
-
-plt.plot(x, y)
-plt.show()
-
-import matplotlib.pyplot as plt
-
-x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-y = []
-
-plt.xlabel("x values")
-plt.ylabel("y values")
-
-plt.plot(x, y)
-plt.show()
