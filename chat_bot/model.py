@@ -19,7 +19,6 @@ from tensorflow.keras.optimizers import SGD
 from sklearn.model_selection import train_test_split, StratifiedKFold
 
 
-
 download("punkt")
 download("wordnet")
 
@@ -49,7 +48,7 @@ class Model:
     def load_process_data(self):
         """Loads and processes the data."""
 
-        with open("data/query_data.json", encoding="utf-8") as data_file:
+        with open("chat_bot/data/query_data.json", encoding="utf-8") as data_file:
             self.category_data = json.loads(data_file.read())["categories"]
         lem = WordNetLemmatizer()
 
@@ -72,7 +71,7 @@ class Model:
 
         # Fixes the order of the master word list and saves it to a file.
         self.all_words = list(self.all_words)
-        with open("data/words.pkl", "wb") as words_file:
+        with open("chat_bot/data/words.pkl", "wb") as words_file:
             pickle.dump(self.all_words, words_file)
 
         # Converts input to numerical arrays for the neural network.
@@ -98,7 +97,9 @@ class Model:
         self.y = np.array(list(self.training_data[:, 1]))
 
     def build_model(self):
-        """Builds the neural network model and prints summary."""
+        """Builds the neural network model with the given
+        hyperparameters, stores the model and returns it.
+        """
 
         # Only loads and processes the data if it hasn't been done
         # yet (makes repeated calls to this method more efficient).
@@ -126,8 +127,10 @@ class Model:
         self.model = model
         return model
 
-    def train_model(self, epochs=20):
-        """Trains the NN with given data and hyperparameters and saves it to file."""
+    def train_model(self, num_epochs=12):
+        """Builds the NN model and prints a summary of it, then
+        trains it with the given data and saves it to a file.
+        """
 
         print(self.build_model().summary())
 
@@ -135,7 +138,7 @@ class Model:
         trained_model = self.model.fit(
             self.X,
             self.y,
-            epochs=epochs,
+            epochs=num_epochs,
             batch_size=5,
             verbose=1,
         )
@@ -146,7 +149,7 @@ class Model:
     def evaluate_ttsplit(self, num_epochs):
         """Gets the loss and accuracy for the model.
 
-        Evaluated using train-test split of 4:1.
+        Evaluated using train-test split of 3:1.
 
         Args:
             num_epochs (int): The number of epochs to train the model for before testing.
@@ -176,7 +179,7 @@ class Model:
             tuple[float, float]: Values for loss and accuracy.
         """
 
-        skf = StratifiedKFold(n_splits=8, shuffle=True, random_state=1)
+        skf = StratifiedKFold(n_splits=8)
 
         model = self.build_model()
 
@@ -192,25 +195,38 @@ class Model:
 
         return np.mean(loss_scores), np.mean(accuracy_scores)
 
-    def show_graph(self):
-        x = []
-        loss = []
-        acc = []
+    def display_graphs(self, max_epochs=15, kfold=False):
+        """Displays graphs for the loss and accuracy of the model.
 
-        for i in range(1, 6):
-            result = self.evaluate_kfold(i)
-            print(f"{i} epochs\tloss: {result[0]:.2f}\taccuracy: {result[1]:.1%}")
-            x.append(i)
-            loss.append(result[0])
-            acc.append(result[1])
+        Args:
+            max_epochs (int): The number of epochs that the graphs should go up to.
+            kfold (bool): Whether or not to use the k-fold method of splitting and testing.
+        """
 
-        fig, axs = plt.subplots(2, 1, sharex="col")
-        #plt.xlabel("Epochs")
-        #plt.ylabel("Loss")
+        x = range(max_epochs + 1)
+        y_loss = []
+        y_acc = []
+        for i in x:
+            if kfold:
+                loss, acc = self.evaluate_kfold(i)
+            else:
+                loss, acc = self.evaluate_ttsplit(i)
+            print(f"{i} epochs\tLoss: {loss:.2f}\tAccuracy: {acc:.1%}")
+            y_loss.append(loss)
+            y_acc.append(acc * 100)
 
-        axs[0].plot(x, loss)
-        axs[1].plot(x, acc)
+        fig, (ax1, ax2) = plt.subplots(2, 1, sharex="col")
+
+        ax1.set_ylabel("Loss")
+        ax1.plot(x, y_loss)
+        ax1.grid(True)
+
+        ax2.set_ylabel("Accuracy (%)")
+        ax2.plot(x, y_acc)
+        ax2.grid(True)
+
+        ax2.set_xlabel("Epochs")
+        ax2.set_xticks(range(max_epochs + 1))
+        ax2.set_xlim(left=0, right=max_epochs)
+
         plt.show()
-
-model = Model()
-model.show_graph()
