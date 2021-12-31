@@ -5,6 +5,7 @@ Requires the follwing packages: json, pickle, random, numpy, nltk, and tensorflo
 
 # pylint: disable=no-name-in-module
 # pylint: disable=invalid-name
+# pylint: disable=unused-variable
 
 import json
 import pickle
