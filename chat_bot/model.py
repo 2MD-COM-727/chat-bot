@@ -177,7 +177,7 @@ class Model:
             tuple[float, float]: Values for loss and accuracy.
         """
 
-        skf = StratifiedKFold(n_splits=8)
+        skf = StratifiedKFold(n_splits=4)
 
         model = self.build_model()
 
@@ -193,7 +193,7 @@ class Model:
 
         return np.mean(loss_scores), np.mean(accuracy_scores)
 
-    def display_graphs(self, max_epochs=15, kfold=False):
+    def display_graphs(self, max_epochs=15, kfold=True):
         """Displays graphs for the loss and accuracy of the model.
 
         Args:
@@ -218,10 +218,12 @@ class Model:
         ax1.set_ylabel("Loss")
         ax1.plot(x, y_loss)
         ax1.grid(True)
+        ax1.set_ylim(bottom=0)
 
         ax2.set_ylabel("Accuracy (%)")
         ax2.plot(x, y_acc)
         ax2.grid(True)
+        ax2.set_ylim(top=100)
 
         ax2.set_xlabel("Epochs")
         ax2.set_xticks(range(max_epochs + 1))
