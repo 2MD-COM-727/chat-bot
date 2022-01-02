@@ -133,8 +133,7 @@ class Model:
     def train_model(self, num_epochs=12):
         """Trains the model with the given data and saves the trained model to a file."""
 
-        # Prints a summary of the previously compiled model.
-        print(self.model.summary())
+        print(self.build_model().summary())
 
         # Trains the model with our input arrays and label arrays.
         trained_model = self.model.fit(
