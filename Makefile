@@ -1,6 +1,8 @@
 init:
 	pip3 install -r requirements.txt || pip install -r requirements.txt
 build-docs:
+	cd docs && sphinx-build -b html source build && cd ..
+build-docs-clean:
 	cd docs && make clean && sphinx-build -b html source build && cd ..
 host-docs:
 	cd docs/build && python -m http.server && cd ../..
