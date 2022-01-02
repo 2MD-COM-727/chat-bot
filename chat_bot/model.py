@@ -10,6 +10,7 @@ import json
 import pickle
 from random import shuffle
 import numpy as np
+import matplotlib.pyplot as plt
 from nltk import word_tokenize, download
 from nltk.stem import WordNetLemmatizer
 from tensorflow.keras.models import Sequential
@@ -44,7 +45,7 @@ class Model:
         self.X = None
         self.y = None
 
-    def load_process_data(self):
+    def __load_process_data(self):
         """Loads and processes the data."""
 
         with open("chat_bot/data/query_data.json", encoding="utf-8") as data_file:
@@ -96,12 +97,16 @@ class Model:
         self.y = np.array(list(self.training_data[:, 1]))
 
     def build_model(self):
-        """Builds the neural network model and prints summary."""
+        """Builds the neural network model with the given hyperparameters.
+
+        Returns:
+            TensorFlow object: The compiled model.
+        """
 
         # Only loads and processes the data if it hasn't been done
         # yet (makes repeated calls to this method more efficient).
         if isinstance(self.training_data, list):
-            self.load_process_data()
+            self.__load_process_data()
 
         # Neural network (NN) with dropouts to avoid overfitting.
         model = Sequential()
@@ -124,8 +129,8 @@ class Model:
         self.model = model
         return model
 
-    def train_model(self, epochs=20):
-        """Trains the NN with given data and hyperparameters and saves it to file."""
+    def train_model(self, num_epochs=12):
+        """Trains the model with the given data and saves the trained model to a file."""
 
         print(self.build_model().summary())
 
@@ -133,7 +138,7 @@ class Model:
         trained_model = self.model.fit(
             self.X,
             self.y,
-            epochs=epochs,
+            epochs=num_epochs,
             batch_size=5,
             verbose=1,
         )
@@ -141,10 +146,8 @@ class Model:
         # Saves the model to a file for use in bot.py.
         self.model.save("chat_bot/data/trained_model.h5", trained_model)
 
-    def evaluate_ttsplit(self, num_epochs):
-        """Gets the loss and accuracy for the model.
-
-        Evaluated using train-test split of 4:1.
+    def __eval_ttsplit(self, num_epochs):
+        """Gets the loss and accuracy for the model using a train-test split of 3:1.
 
         Args:
             num_epochs (int): The number of epochs to train the model for before testing.
@@ -162,10 +165,8 @@ class Model:
 
         return model.evaluate(X_test, y_test, verbose=0)
 
-    def evaluate_kfold(self, num_epochs):
-        """Gets the loss and accuracy for the model.
-
-        Uses different number of epochs with stratified k-fold (better for smaller data sets).
+    def __eval_kfold(self, num_epochs):
+        """Gets the loss and accuracy for the model using the stratified k-fold method.
 
         Args:
             num_epochs (int): The number of epochs to train the model for before testing.
@@ -174,7 +175,7 @@ class Model:
             tuple[float, float]: Values for loss and accuracy.
         """
 
-        skf = StratifiedKFold(n_splits=8, shuffle=True, random_state=1)
+        skf = StratifiedKFold(n_splits=4)
 
         model = self.build_model()
 
@@ -189,3 +190,39 @@ class Model:
             accuracy_scores.append(acc)
 
         return np.mean(loss_scores), np.mean(accuracy_scores)
+
+    def evaluate(self, max_epochs=15, kfold=True):
+        """Displays graphs for the loss and accuracy of the model.
+
+        Args:
+            max_epochs (int): The number of epochs that the graphs should go up to.
+            kfold (bool): Whether or not to use the k-fold method of splitting and testing.
+        """
+
+        x = range(max_epochs + 1)
+        y_loss = []
+        y_acc = []
+        for i in x:
+            loss, acc = self.__eval_kfold(i) if kfold else self.__eval_ttsplit(i)
+            print(f"{i} epochs\tLoss: {loss:.2f}\tAccuracy: {acc:.1%}")
+            y_loss.append(loss)
+            y_acc.append(acc * 100)
+
+        # pylint: disable-next=unused-variable
+        fig, (ax1, ax2) = plt.subplots(2, 1, sharex="col")
+
+        ax1.set_ylabel("Loss")
+        ax1.plot(x, y_loss)
+        ax1.grid(True)
+        ax1.set_ylim(bottom=0)
+
+        ax2.set_ylabel("Accuracy (%)")
+        ax2.plot(x, y_acc)
+        ax2.grid(True)
+        ax2.set_ylim(top=100)
+
+        ax2.set_xlabel("Epochs")
+        ax2.set_xticks(range(max_epochs + 1))
+        ax2.set_xlim(left=0, right=max_epochs)
+
+        plt.show()

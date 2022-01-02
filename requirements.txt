@@ -8,3 +8,4 @@ numpy
 nltk
 tensorflow
 sklearn
+matplotlib
