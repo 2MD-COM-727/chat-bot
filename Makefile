@@ -5,9 +5,9 @@ build-docs:
 host-docs:
 	cd docs/build && python -m http.server && cd ../..
 start:
-	python3 chat_bot/main.py || python chat_bot/main.py
+	python3 chat_bot || python chat_bot
 start-admin:
-	python3 chat_bot/main.py --admin || python chat_bot/main.py --admin
+	python3 chat_bot --admin || python chat_bot --admin
 test:
 	coverage run -m unittest discover -v chat_bot || coverage run -m unittest discover -v chat_bot
 	@echo ""
