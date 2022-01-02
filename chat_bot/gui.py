@@ -79,7 +79,7 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
     def run(self):
         """Initiates the main loop for the tkinter window."""
 
-        self.window.mainloop()
+        self.window.mainloop() # pragma: no cover
 
     def __setup_main_window(self):
         self.window.title(self.WINDOW_TITLE)
@@ -141,7 +141,7 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
         )
         send_button.place(relx=0.77, rely=0.007, relheight=0.022, relwidth=0.22)
 
-    def __insert_user_message(self, query):
+    def __insert_user_message(self, query): # pragma: no cover
         """Handles the user's input and shows it in the window.
 
         Args:
@@ -196,7 +196,7 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
         self.text_widget.see(END)
 
     # pylint: disable-next=unused-argument, inconsistent-return-statements
-    def __on_enter_pressed(self, event):
+    def __on_enter_pressed(self, event): # pragma: no cover
         """An on enter press event listener.
 
         Gets the message and passes it to a flow handler.
@@ -220,7 +220,7 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
             self.__insert_chat_bot_message(bot_response)
 
     # pylint: disable-next=too-many-branches
-    def __get_response(self, user_input, query_response):
+    def __get_response(self, user_input, query_response): # pragma: no cover
         """Takes user input and returns an appropriate response.
 
         Args:
