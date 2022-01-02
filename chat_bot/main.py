@@ -23,6 +23,7 @@ ______________________________________________________________
 ADMIN_MENU = """
 1. Build model and show summary
 2. Train and save model
+3. Display evaluation graphs of epochs against loss and accuracy
 
 """
 
@@ -47,7 +48,7 @@ def get_admin_option():
     return_option = None
     while return_option is None:
         opt = input(f"{ADMIN_MENU}>>> ")
-        if opt in ("1", "2"):
+        if opt in ("1", "2", "3"):
             return_option = opt
         else:
             print("\nPlease select a valid option.")
@@ -67,6 +68,8 @@ if __name__ == "__main__":
             print(model.build_model().summary())
         elif option == "2":
             model.train_model()
+        elif option == "3":
+            model.evaluate()
     else:
         app = ChatGUI()
         app.run()

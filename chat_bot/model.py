@@ -45,7 +45,7 @@ class Model:
         self.X = None
         self.y = None
 
-    def load_process_data(self):
+    def __load_process_data(self):
         """Loads and processes the data."""
 
         with open("chat_bot/data/query_data.json", encoding="utf-8") as data_file:
@@ -106,7 +106,7 @@ class Model:
         # Only loads and processes the data if it hasn't been done
         # yet (makes repeated calls to this method more efficient).
         if isinstance(self.training_data, list):
-            self.load_process_data()
+            self.__load_process_data()
 
         # Neural network (NN) with dropouts to avoid overfitting.
         model = Sequential()
@@ -146,7 +146,7 @@ class Model:
         # Saves the model to a file for use in bot.py.
         self.model.save("chat_bot/data/trained_model.h5", trained_model)
 
-    def evaluate_ttsplit(self, num_epochs):
+    def __eval_ttsplit(self, num_epochs):
         """Gets the loss and accuracy for the model using a train-test split of 3:1.
 
         Args:
@@ -165,7 +165,7 @@ class Model:
 
         return model.evaluate(X_test, y_test, verbose=0)
 
-    def evaluate_kfold(self, num_epochs):
+    def __eval_kfold(self, num_epochs):
         """Gets the loss and accuracy for the model using the stratified k-fold method.
 
         Args:
@@ -191,7 +191,7 @@ class Model:
 
         return np.mean(loss_scores), np.mean(accuracy_scores)
 
-    def display_graphs(self, max_epochs=15, kfold=True):
+    def evaluate(self, max_epochs=15, kfold=True):
         """Displays graphs for the loss and accuracy of the model.
 
         Args:
@@ -203,10 +203,7 @@ class Model:
         y_loss = []
         y_acc = []
         for i in x:
-            if kfold:
-                loss, acc = self.evaluate_kfold(i)
-            else:
-                loss, acc = self.evaluate_ttsplit(i)
+            loss, acc = self.__eval_kfold(i) if kfold else self.__eval_ttsplit(i)
             print(f"{i} epochs\tLoss: {loss:.2f}\tAccuracy: {acc:.1%}")
             y_loss.append(loss)
             y_acc.append(acc * 100)
