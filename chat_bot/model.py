@@ -5,7 +5,6 @@ Requires the follwing packages: json, pickle, random, numpy, nltk, and tensorflo
 
 # pylint: disable=no-name-in-module
 # pylint: disable=invalid-name
-# pylint: disable=unused-variable
 
 import json
 import pickle
@@ -213,6 +212,7 @@ class Model:
             y_loss.append(loss)
             y_acc.append(acc * 100)
 
+        # pylint: disable-next=unused-variable
         fig, (ax1, ax2) = plt.subplots(2, 1, sharex="col")
 
         ax1.set_ylabel("Loss")
