@@ -1,6 +1,6 @@
-"""Testing for catalogue module.
+"""Testing for main module.
 
-Tests the following: finding a book, author, or subject with a single word search.
+Tests the following: Checks if there's an instance of GUI.
 
 Requires the following packages: unittest and chat_bot.
 """
