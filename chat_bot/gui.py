@@ -268,7 +268,7 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
                     )
                 )
             else:
-                response = "What else can I help you with?"
+                response = "Do you have any more questions?"
                 self.flow_type = "query"
 
         elif self.flow_type == "human":
