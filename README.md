@@ -1,5 +1,13 @@
 # AE1 Software and Technical Report for a Chat Bot
 
+## Specification
+
+The best way to run this project is using MacOS as it has 'make' installed by default.
+
+- Python 3.9
+- Latest pip version
+- Use a terminal (not Windows Cmd prompt if possible)
+
 ## Usage
 
 ```
@@ -24,14 +32,6 @@ make host-cov
 ```
 
 ## Usage (detailed)
-
-The best way to run this project is using MacOS as it has 'make' installed by default.
-
-- Python 3.9
-- Latest pip version
-- Use a terminal (not Windows Cmd prompt if possible)
-
-## How to run
 
 You can have a look at the **Makefile** to see all the commands available.
 
