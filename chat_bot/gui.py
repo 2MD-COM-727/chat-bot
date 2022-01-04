@@ -70,10 +70,12 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
         self.window.resizable(True, True)
 
         self.__insert_chat_bot_message(
-            "Hi! I'm the Solent Library's Chatbot. I can help you with any query regarding "
-            "the library's opening times and access, booking study rooms or computers, the "
+            "Hi! I'm the Solent Library's Chatbot. I can answer questions about the "
+            "library's opening times and access, booking study rooms or computers, the "
             "location of books, available ebooks, borrowing laptops, printing at the library, "
-            "and available software and computer types along with their locations."
+            "and available software and computer types along with their locations.\n"
+            "I can also search the library's catalogue of books and journals.\n\n"
+            "What can I help you with?"
         )
 
     def run(self):
@@ -268,7 +270,7 @@ class ChatGUI(ChatWindow, ChatHeaderLabel, Helpers):
                     )
                 )
             else:
-                response = "Do you have any more questions?"
+                response = "What else can I help you with?"
                 self.flow_type = "query"
 
         elif self.flow_type == "human":

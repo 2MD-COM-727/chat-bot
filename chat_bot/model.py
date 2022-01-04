@@ -129,7 +129,7 @@ class Model:
         self.model = model
         return model
 
-    def train_model(self, num_epochs=12):
+    def train_model(self, num_epochs=8):
         """Trains the model with the given data and saves the trained model to a file."""
 
         print(self.build_model().summary())
@@ -191,7 +191,7 @@ class Model:
 
         return np.mean(loss_scores), np.mean(accuracy_scores)
 
-    def evaluate(self, max_epochs=15, kfold=True):
+    def evaluate(self, max_epochs=10, kfold=True):
         """Displays graphs for the loss and accuracy of the model.
 
         Args:
