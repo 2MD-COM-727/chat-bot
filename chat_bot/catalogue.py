@@ -8,12 +8,12 @@ from webbrowser import open as web_open
 MENU = """
 Search by:
 
-1. Book title
+1. Title
 2. Author
 3. Subject
 """
 OPTIONS_MAP_LABEL = {
-    "1": "book",
+    "1": "book or journal",
     "2": "author",
     "3": "subject",
 }
