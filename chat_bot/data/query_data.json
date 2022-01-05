@@ -37,7 +37,7 @@
         "when is the library closed?",
         "give me library opening times"
       ],
-      "response": "Details of the Library's opening hours can be found here: https://libguides.solent.ac.uk/libraryessentials"
+      "response": "Details of the library's opening hours can be found here: libguides.solent.ac.uk/libraryessentials"
     },
     {
       "label": "library access",
@@ -114,7 +114,7 @@
         "can i extend my booking?",
         "do i need student id to book a computer?"
       ],
-      "response": "Please follow this link for details on the locations in the library and the type/number of computers available for use there: https://libguides.solent.ac.uk/bookings/computers"
+      "response": "Please follow this link for details on how to book a computer, including their locations in the library and the type/number of computers available there: libguides.solent.ac.uk/bookings/computers"
     },
     {
       "label": "printing",
@@ -157,7 +157,7 @@
         "can i print a pdf document?",
         "can i print a word document?"
       ],
-      "response": "You can find out all about printing costs and printing from your own device or a university machine here: https://students.solent.ac.uk/studying/print-service"
+      "response": "You can find out all about printing costs and printing from your own device or a university machine here: students.solent.ac.uk/studying/print-service"
     },
     {
       "label": "borrowing laptop",
@@ -195,7 +195,7 @@
         "looking for a borrowing a laptop guide",
         "need a step-by-step guide for borrowing a mac from uni"
       ],
-      "response": "For information on how to borrow and return a laptop, saving work on a borrowed laptop and all other related enquiries, please visit https://libguides.solent.ac.uk/loans/laptoploans"
+      "response": "For information on how to borrow and return a laptop, saving work on a borrowed laptop and all other related enquiries, please visit libguides.solent.ac.uk/loans/laptoploans"
     },
     {
       "label": "ebooks",
@@ -213,10 +213,10 @@
         "links to e-resources",
         "list of online resources"
       ],
-      "response": "Here's a A-Z list of all online resources: https://libguides.solent.ac.uk/az.php"
+      "response": "Here's an A-Z list of all ebooks and resources available online: libguides.solent.ac.uk/az.php"
     },
     {
-      "label": "location of books",
+      "label": "location of books and journals",
       "questions": [
         "how can i borrow a book",
         "i need to borrow a book",
@@ -250,11 +250,21 @@
         "Where can I find books about",
         "What floor has books about",
         "Where can I find copies of old journals?",
-        "What floor has copies of old journals?",
+        "What floor has copies of old journal editions?",
         "Which floor is this book on?",
         "Which floor can I find this book on?",
         "How can I find a book about",
-        "I want to search the catalogue"
+        "I want to search the catalogue",
+        "Can I search the online catalogue?",
+        "How do I access the library's online catalogue?",
+        "I want to search for a book online",
+        "I'm looking for a particular book",
+        "I need to find a certain edition of a journal",
+        "Are journals available online?",
+        "I want to search for journals",
+        "I need to find a particular journal article",
+        "I want to know if a journal article is available online",
+        "I need to know where to find a particular journal"
       ],
       "response": "catalogue"
     },
@@ -295,7 +305,7 @@
         "give me all the softwares available on pcs",
         "looking for a software list"
       ],
-      "response": "Please follow this link to view in which areas specific software is available: https://libguides.solent.ac.uk/ld.php?content_id=32080355"
+      "response": "Please follow this link to view which software is available in each area: libguides.solent.ac.uk/ld.php?content_id=32080355"
     },
     {
       "label": "study rooms",
@@ -334,7 +344,7 @@
         "can i book a study room that has a pc?",
         "can i use a group study room for individual study?"
       ],
-      "response": "For general information regarding study spaces within the library (which includes individual and group study rooms) please visit this link here: https://libguides.solent.ac.uk/bookings/rooms and when you are ready to book a room access this link: https://mypc.solent.ac.uk/MyPC/BookingGrid.htm"
+      "response": "For general information regarding study spaces within the library (which includes individual and group study rooms) please visit this link: libguides.solent.ac.uk/bookings/rooms\nWhen you are ready to book a room, go to this link: mypc.solent.ac.uk/MyPC/BookingGrid.htm"
     }
   ]
 }

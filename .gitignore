@@ -138,7 +138,3 @@ cython_debug/
 
 # Pycharm
 .idea/
-
-# Model training files
-**trained_model.h5
-**words.pkl
