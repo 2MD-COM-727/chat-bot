@@ -191,6 +191,15 @@ class Model:
 
         return np.mean(loss_scores), np.mean(accuracy_scores)
 
+
+    def __training_stats(self, num_epochs):
+        model = self.build_model()
+        trained_model = model.fit(
+                self.X, self.y, epochs=num_epochs, batch_size=5, verbose=0
+            )
+        return trained_model.history
+
+
     def evaluate(self, max_epochs=10, kfold=True):
         """Displays graphs for the loss and accuracy of the model.
 
@@ -199,30 +208,41 @@ class Model:
             kfold (bool): Whether or not to use the k-fold method of splitting and testing.
         """
 
-        x = range(max_epochs + 1)
-        y_loss = []
-        y_acc = []
+        # Get stats from test data
+        x = range(1, max_epochs + 1)
+        loss_test = []
+        acc_test = []
         for i in x:
             loss, acc = self.__eval_kfold(i) if kfold else self.__eval_ttsplit(i)
             print(f"{i} epochs\tLoss: {loss:.2f}\tAccuracy: {acc:.1%}")
-            y_loss.append(loss)
-            y_acc.append(acc * 100)
+            loss_test.append(loss)
+            acc_test.append(acc * 100)
+
+        # Get stats from training data
+        training_stats = self.__training_stats(max_epochs)
+        loss_train = training_stats["loss"]
+        acc_train = [x * 100 for x in training_stats["accuracy"]]
 
         # pylint: disable-next=unused-variable
         fig, (ax1, ax2) = plt.subplots(2, 1, sharex="col")
 
+        # Draw graphs
         ax1.set_ylabel("Loss")
-        ax1.plot(x, y_loss)
+        ax1.plot(x, loss_test, label="Validation")
+        ax1.plot(x, loss_train, label="Training")
+        ax1.legend()
         ax1.grid(True)
         ax1.set_ylim(bottom=0)
 
         ax2.set_ylabel("Accuracy (%)")
-        ax2.plot(x, y_acc)
+        ax2.plot(x, acc_test, label="Validation")
+        ax2.plot(x, acc_train, label="Training")
+        ax2.legend()
         ax2.grid(True)
         ax2.set_ylim(top=100)
 
         ax2.set_xlabel("Epochs")
-        ax2.set_xticks(range(max_epochs + 1))
-        ax2.set_xlim(left=0, right=max_epochs)
+        ax2.set_xticks(range(1, max_epochs + 1))
+        ax2.set_xlim(left=1, right=max_epochs)
 
         plt.show()
