@@ -16,7 +16,7 @@ You can have a look at the **Makefile** to see all the commands available.
 
 - Install all dependencies with **make init** or **pip install -r requirements.txt**. If you are getting issues with install tensorflow on MacOS M1 chip, you'll need to follow [this guide](https://developer.apple.com/metal/tensorflow-plugin/).
 - If there isn't already a **h5** file in **chat_bot/data**. Use **make start-admin** or **python chat_bot --admin** to run the project in admin mode where you can train the model with **option 2**.
-- You can run the chat bot with **make start** or **python chat_bot**. If you experience any issue, you may have to run **python chat_bot/__main__.py**, but it is unlikely if you are using the correct version of python as per the specifications.
+- You can run the chat bot with **make start** or **python chat_bot**. If you experience any issue, you may have to run **python chat_bot/\_\_main__.py**, but it is unlikely if you are using the correct version of python as per the specifications.
 
 ### Unit tests
 
