@@ -35,3 +35,7 @@ Then you can host it using **make host-docs** or **cd docs/build && python -m ht
 If the **&&** doesn't work on your terminal, run each command on its own line.
 
 Open a web browser and in the url go to **localhost:8000** or whatever it says in the terminal.
+
+## Important information
+
+- If you evaluate the optimal number of epochs using option 3 on the admin TUI. It will change some crucial files used to run the chat bot. Please retrain the chat bot again before running the chat bot, otherwise, it will be very inaccurate.
